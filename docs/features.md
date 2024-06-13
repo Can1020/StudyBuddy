@@ -10,7 +10,7 @@ nav_order: 7
 
 ## Sign-In Page
 
-![get_list_todos_sample](/StudyBuddy-Code-Dokumentation/assets/images/Sign in.jpg)
+![get_list_todos_sample](/StudyBuddy/assets/images/Sign in.jpg)
 
 **Ziel**
 Der Sign-In Screen ermöglicht es Benutzern, sich mit ihrer Universitäts-E-Mail-Adresse und einem Passwort bei der StudyBuddy-Webanwendung anzumelden.
@@ -52,7 +52,7 @@ Der Sign-In Screen ermöglicht es Benutzern, sich mit ihrer Universitäts-E-Mail
 
 ## Homescreen Page
 
-![get_list_todos_sample](/StudyBuddy-Code-Dokumentation/assets/images/Homescreen.jpg)
+![get_list_todos_sample](/StudyBuddy/assets/images/Homescreen.jpg)
 
 **Ziel**
 
@@ -101,7 +101,7 @@ Benutzer können Profile durchsehen und sich entscheiden, ob sie sich mit andere
 
 ## Messages Page
 
-![get_list_todos_sample](/StudyBuddy-Code-Dokumentation/assets/images/Messages.jpg)
+![get_list_todos_sample](/StudyBuddy/assets/images/Messages.jpg)
     **Ziel**
         Der Messages Screen von StudyBuddy bietet eine Chat-Funktionalität, die es Benutzern ermöglicht, in Echtzeit Nachrichten auszutauschen. Dies fördert die Kommunikation und Zusammenarbeit zwischen Studenten.
     **Features**
