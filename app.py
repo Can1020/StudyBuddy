@@ -1,54 +1,31 @@
-import os
-from flask import Flask, render_template, redirect, url_for, request
-import db
+from flask import Flask, render_template, request, redirect, url_for
+from flask_socketio import SocketIO
+import re
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
-app.config.from_mapping(
-    SECRET_KEY='secret_key_just_for_dev_environment',
-    DATABASE=os.path.join(app.instance_path, 'todos.sqlite')
-)
-app.cli.add_command(db.init_db)
-app.teardown_appcontext(db.close_db_con)
+# Regex for validating email
+regex = r'^\b[A-Za-z0-9._%+-]+@stud\.[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 @app.route('/')
-def index():
-    return redirect(url_for('lists'))
+def login():
+    return render_template('login.html')
 
-@app.route('/lists/')
-def lists():
-    db_con = db.get_db_con()
-    sql_query = 'SELECT * from list ORDER BY name'
-    lists_temp = db_con.execute(sql_query).fetchall()
-    lists = []
-    for list_temp in lists_temp:
-        list = dict(list_temp)
-        sql_query = (
-            'SELECT COUNT(complete) = SUM(complete) '
-            'AS complete FROM todo '
-            f'JOIN todo_list ON list_id={list["id"]} '
-                'AND todo_id=todo.id; '
-        )
-        complete = db_con.execute(sql_query).fetchone()['complete']
-        list['complete'] = complete
-        lists.append(list)
-    return render_template('lists.html', lists=lists)
+@app.route('/login', methods=['POST'])
+def login_post():
+    email = request.form.get('email')
+    password = request.form.get('password')
 
-@app.route('/lists/<int:id>')
-def list(id):
-    db_con = db.get_db_con()
-    sql_query_1 = f'SELECT name FROM list WHERE id={id}'
-    sql_query_2 = (
-        'SELECT id, complete, description FROM todo '
-        f'JOIN todo_list ON todo_id=todo.id AND list_id={id} '
-        'ORDER BY id;'
-    )
-    list = {}
-    list['name'] = db_con.execute(sql_query_1).fetchone()['name']
-    list['todos'] = db_con.execute(sql_query_2).fetchall()
-    return render_template('list.html', list=list)
+    if re.fullmatch(regex, email):
+        # Add logic for verifying email and password from the database
+        return redirect(url_for('welcome'))
+    else:
+        return "Invalid email address. Please use your university email."
 
-@app.route('/insert/sample')
-def run_insert_sample():
-    db.insert_sample()
-    return 'Database flushed and populated with some sample data.'
+@app.route('/welcome')
+def welcome():
+    return "Welcome to StudyBuddy!"
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
