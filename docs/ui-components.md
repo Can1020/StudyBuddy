@@ -1,7 +1,6 @@
 ---
 title: UI Components
-nav_order: 99
-nav_exclude: true
+nav_order: 4
 ---
 
 {: .label .label-red }
@@ -12,7 +11,6 @@ nav_exclude: true
 > ```
 > ---
 > title: UI Components
-> nav_exclude: true
 > ---
 > ```
 
@@ -25,10 +23,66 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ## Images
 
 ```markdown
-![get_list_todos_sample](assets/images/fswd-intro_02.png)
-```
+### Sign in Screen
 
-![get_list_todos_sample](assets/images/fswd-intro_02.png)
+![get_list_todos_sample](assets/images/Sign in.jpg)
+
+### Sign up - Name
+
+![get_list_todos_sample](assets/images/Sign up - Name.jpg)
+
+### Sign up - Uni
+
+![get_list_todos_sample](assets/images/Sign up - Uni.jpg)
+
+### Sign up - Course of study
+
+![get_list_todos_sample](assets/images/Sign up - Course of study.jpg)
+
+### Sign up - Semester
+
+![get_list_todos_sample](assets/images/Sign up - Semester.jpg)
+
+### Sign up - Skills & interests
+
+![get_list_todos_sample](assets/images/Sign up - Skills & interests.jpg)
+
+### Sign up Uni - E-Mail
+
+![get_list_todos_sample](assets/images/Sign up - Uni E-Mail.jpg)
+
+### Sign up - Password
+
+![get_list_todos_sample](assets/images/Sign up - Password.jpg)
+
+### Loading Screen
+
+![get_list_todos_sample](assets/images/Sign up - Loading Screen.jpg)
+
+### Homescreen
+
+![get_list_todos_sample](assets/images/Sign up - Homescreen.jpg)
+
+### Homescreen - Filters
+
+![get_list_todos_sample](assets/images/Sign up - Homescreen - Filters.jpg)
+
+### Profile Screen
+
+![get_list_todos_sample](assets/images/Sign up - Profile Screen.jpg)
+
+### Search Screen
+
+![get_list_todos_sample](assets/images/Sign up - Search.jpg)
+
+### Match Screen
+
+![get_list_todos_sample](assets/images/Sign up - Match Screen.jpg)
+
+### Messages Screen
+
+![get_list_todos_sample](assets/images/Sign up - Messages.jpg)
+```
 
 ## Callouts
 
