@@ -24,63 +24,63 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 
 ### Sign in Screen
 
-![get_list_todos_sample](assets/images/Sign in.jpg)
+![StudyBuddy_sample](assets/images/Sign%20in.jpg)
 
 ### Sign up - Name
 
-![get_list_todos_sample](assets/images/Sign up - Name.jpg)
+![StudyBuddy_sample](assets/images/Sign%20up%20-%20Name.jpg)
 
 ### Sign up - Uni
 
-![get_list_todos_sample](assets/images/Sign up - Uni.jpg)
+![StudyBuddy_sample](assets/images/Sign%20up%20-%20Uni.jpg)
 
 ### Sign up - Course of study
 
-![get_list_todos_sample](assets/images/Sign up - Course of study.jpg)
+![StudyBuddy_sample](assets/images/Sign%20up%20-%20Course%20of%20study.jpg)
 
 ### Sign up - Semester
 
-![get_list_todos_sample](assets/images/Sign up - Semester.jpg)
+![StudyBuddy_sample](assets/images/Sign%20up%20-%20Semester.jpg)
 
 ### Sign up - Skills & interests
 
-![get_list_todos_sample](assets/images/Sign up - Skills & interests.jpg)
+![StudyBuddy_sample](assets/images/Sign%20up%20-%20Skills%20&%20Interests.jpg)
 
 ### Sign up Uni - E-Mail
 
-![get_list_todos_sample](assets/images/Sign up - Uni E-Mail.jpg)
+![StudyBuddy_sample](assets/images/Sign%20up%20-%20Uni%20E-Mail.jpg)
 
 ### Sign up - Password
 
-![get_list_todos_sample](assets/images/Sign up - Password.jpg)
+![StudyBuddy_sample](assets/images//Sign%20up%20-%20Password.jpg)
 
 ### Loading Screen
 
-![get_list_todos_sample](assets/images/Sign up - Loading Screen.jpg)
+![StudyBuddy_sample](assets/images//Loading%20Screen.jpg)
 
 ### Homescreen
 
-![get_list_todos_sample](assets/images/Sign up - Homescreen.jpg)
+![StudyBuddy_sample](assets/images/Homescreen.jpg)
 
 ### Homescreen - Filters
 
-![get_list_todos_sample](assets/images/Sign up - Homescreen - Filters.jpg)
+![StudyBuddy_sample](assets/images/Homescreen%20-%20Filters.jpg)
 
 ### Profile Screen
 
-![get_list_todos_sample](assets/images/Sign up - Profile Screen.jpg)
+![StudyBuddy_sample](assets/images/Profile%20Screen.jpg)
 
 ### Search Screen
 
-![get_list_todos_sample](assets/images/Sign up - Search.jpg)
+![StudyBuddy_sample](assets/images//Search.jpg)
 
 ### Match Screen
 
-![get_list_todos_sample](assets/images/Sign up - Match Screen.jpg)
+![StudyBuddy_sample](assets/images/Match%20Screen.jpg)
 
 ### Messages Screen
 
-![get_list_todos_sample](assets/images/Sign up - Messages.jpg)
+![StudyBuddy_sample](assets/images/Messages.jpg)
 
 ## Callouts
 
