@@ -22,7 +22,6 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 
 ## Images
 
-```markdown
 ### Sign in Screen
 
 ![get_list_todos_sample](assets/images/Sign in.jpg)
@@ -82,7 +81,6 @@ For a quick reference of the markdown syntax, visit [this page](https://github.c
 ### Messages Screen
 
 ![get_list_todos_sample](assets/images/Sign up - Messages.jpg)
-```
 
 ## Callouts
 
