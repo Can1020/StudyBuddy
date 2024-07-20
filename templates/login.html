@@ -9,19 +9,34 @@
 <body>
     <div class="container">
         <h1>Welcome to StudyBuddy</h1>
-        <form action="{{ url_for('login_post') }}" method="post">
-            <div>
-                <label for="email">University Email</label>
-                <input type="email" id="email" name="email" required>
+        <h1>🎓</h1>
+        <h2>login to start</h2>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label(class_='form-label') }}
+                {{ form.email(size=32, class_='form-input') }}
             </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+            <div class="form-group password-container">
+                {{ form.password.label(class_='form-label') }}
+                {{ form.password(size=32, id="password", class_='form-input') }}
+                <img src="{{ url_for('static', filename='eye-closed.png') }}" id="togglePassword" class="eye-icon" alt="Toggle Password Visibility">
             </div>
-            <button type="submit">Log In</button>
-            <p><a href="#">Forgot Password?</a></p>
-            <p>Don't have an account? <a href="#">Register</a></p>
+                <button type="submit" class="btn btn-primary">Login</button>
+            <a href="#">Forgot Password?</a>
+            <p>Don't have an account? <a href="#">REGISTER</a></p>
         </form>
     </div>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const passwordFieldType = passwordField.getAttribute('type');
+            const newType = passwordFieldType === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', newType);
+
+            const eyeIcon = document.getElementById('togglePassword');
+            eyeIcon.src = newType === 'password' ? "{{ url_for('static', filename='eye-closed.png') }}" : "{{ url_for('static', filename='eye-open.png') }}";
+        });
+    </script>
 </body>
 </html>

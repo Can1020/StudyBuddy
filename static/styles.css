@@ -1,0 +1,123 @@
+body {
+    font-family: 'Jost';
+    background: linear-gradient( #D3FCFF, #72A0FA);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.container {
+    background: transparent;
+    text-align: center;
+    width: 784px;
+    padding: 615px;
+}
+
+h1 {
+    margin-bottom: 5px;
+    font-size: 34px;
+    font-weight: medium;
+    color: #1149A0;
+}
+
+h2 {
+    margin-bottom: 30px;
+    font-size: 20px;
+    color: #32343D;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+    text-align: left;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: light;
+    color: #001A57;
+}
+.form-input {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #FFFFFF; 
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+.password-container {
+    align-items: center;
+    position: relative;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+input[type="password"], input[type="email"] {
+    padding-right: 40px;
+   
+}
+
+button {
+    background: #3640E0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 183px;
+    height: 50px;
+    margin-top: 20px;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: #0033aa;
+}
+
+p {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+a {
+    color: #0044cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+form a {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 66%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}

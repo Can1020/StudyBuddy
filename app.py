@@ -1,31 +1,47 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_socketio import SocketIO
+from flask import Flask, render_template, redirect, url_for, request, flash
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from forms import LoginForm
+from models import User
 import re
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+app.config['SECRET_KEY'] = 'your_secret_key'
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
-# Regex for validating email
-regex = r'^\b[A-Za-z0-9._%+-]+@stud\.[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+# Example user database
+users = {'user1': User(id=1, email='s_nezhdet22@stud.hwr-berlin.de', password='password')}
 
-@app.route('/')
+@login_manager.user_loader
+def load_user(user_id):
+    return users.get(user_id)
+
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
 
-@app.route('/login', methods=['POST'])
-def login_post():
-    email = request.form.get('email')
-    password = request.form.get('password')
+        user = next((u for u in users.values() if u.email == email and u.password == password), None)
+        if user:
+            login_user(user)
+            return redirect(url_for('welcome'))
+        else:
+            flash('Invalid email or password')
 
-    if re.fullmatch(regex, email):
-        # Add logic for verifying email and password from the database
-        return redirect(url_for('welcome'))
-    else:
-        return "Invalid email address. Please use your university email."
+    return render_template('login.html', form=form)
 
 @app.route('/welcome')
+@login_required
 def welcome():
-    return "Welcome to StudyBuddy!"
+    return f"Welcome to StudyBuddy, {current_user.email}!"
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run(debug=True)
