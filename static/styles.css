@@ -1,10 +1,11 @@
 body {
-    font-family: 'Jost';
+    font-family: 'SF Pro' , sans-serif;
     background: linear-gradient( #D3FCFF, #72A0FA);
     backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 140px;
     height: 100vh;
     margin: 0;
     overflow: hidden;
@@ -14,26 +15,31 @@ body {
     background: transparent;
     text-align: center;
     width: 784px;
-    padding: 615px;
+    padding: 40px;
 }
 
 h1 {
+    margin-top: 20px;
     margin-bottom: 5px;
-    font-size: 34px;
-    font-weight: medium;
+    font-size: 50px;
+    font-weight: bold;
     color: #1149A0;
 }
 
 h2 {
-    margin-bottom: 30px;
-    font-size: 20px;
+    margin-bottom: 60px;
+    font-size: 23px;
+    font-weight: medium;
     color: #32343D;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
     position: relative;
     text-align: left;
+    width: 100%;
+    max-width: 331px;
+    margin: 0 auto;
 }
 
 .form-label {
@@ -56,10 +62,15 @@ h2 {
 .password-container {
     align-items: center;
     position: relative;
+    padding: 20px;
+    width: 100%;
+    max-width: 331px;
+    margin: 0 auto; 
+    margin-bottom: 10px;
 }
 
 input {
-    width: 100%;
+    width: 331px;
     padding: 10px;
     border: 1px solid #FFFFFF;
     border-radius: 10px;
@@ -69,8 +80,8 @@ input {
 }
 
 input[type="password"], input[type="email"] {
+    width: 100%;
     padding-right: 40px;
-   
 }
 
 button {
@@ -83,7 +94,9 @@ button {
     width: 183px;
     height: 50px;
     margin-top: 20px;
+    margin-bottom: 15px;
     font-size: 16px;
+    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -109,13 +122,15 @@ a:hover {
 form a {
     display: block;
     margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 14px;
+    text-align: center;
 }
 
 .eye-icon {
     position: absolute;
-    right: 10px;
-    top: 66%;
+    right: 33px;
+    top: 62%;
     transform: translateY(-50%);
     cursor: pointer;
     width: 20px;
