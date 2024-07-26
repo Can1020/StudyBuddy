@@ -5,6 +5,7 @@
 2. Install dependencies:
     ```bash
     pip install Flask Flask-SocketIO
+    pip install Flask Flask-wtf
     ```
 3. Run the application:
     ```bash
