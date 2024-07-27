@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBuddy - Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>StudyBuddy</h1>
+        <h2>Register</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label(class_='form-label') }}
+                {{ form.name(size=32, class_='form-input') }}
+            </div>
+            <div class="form-group">
+                {{ form.university.label(class_='form-label') }}
+                {{ form.university(size=32, class_='form-input') }}
+            </div>
+            <div class="form-group">
+                {{ form.course_of_study.label(class_='form-label') }}
+                {{ form.course_of_study(size=32, class_='form-input') }}
+            </div>
+            <div class="form-group">
+                {{ form.semester.label(class_='form-label') }}
+                {{ form.semester(size=32, class_='form-input') }}
+            </div>
+            <div class="form-group">
+                {{ form.skills.label(class_='form-label') }}
+                {{ form.skills(size=32, class_='form-input') }}
+            </div>
+            <div class="form-group">
+                {{ form.email.label(class_='form-label') }}
+                {{ form.email(size=32, class_='form-input') }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class_='form-label') }}
+                {{ form.password(size=32, class_='form-input') }}
+            </div>
+            <div class="form-group">
+                {{ form.confirm_password.label(class_='form-label') }}
+                {{ form.confirm_password(size=32, class_='form-input') }}
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+            <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+        </form>
+    </div>
+</body>
+</html>
