@@ -2,7 +2,6 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms import LoginForm
 from models import User
-import re
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -27,9 +26,16 @@ def login():
         if user:
             login_user(user)
             return redirect(url_for('welcome'))
-        else:
-            flash('Invalid email or password')
-
+        if user:
+            if user.email != email:
+                flash('Invalid email')
+                return redirect(url_for('login'))
+            if user.password != password:
+                flash('Invalid password')
+                return redirect(url_for('login'))
+            else:
+                flash('Invalid email or password')
+                return redirect(url_for('login'))
     return render_template('login.html', form=form)
 
 @app.route('/welcome')

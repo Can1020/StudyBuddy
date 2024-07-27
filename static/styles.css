@@ -136,3 +136,19 @@ form a {
     width: 20px;
     height: 20px;
 }
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.flashes li {
+    color: red;
+    font-size: 14px;
+}

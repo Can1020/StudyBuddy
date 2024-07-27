@@ -11,16 +11,33 @@
         <h1>Welcome to StudyBuddy</h1>
         <h1>🎓</h1>
         <h2>login to start</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li>class = "{{ category}}">{{message}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+           {% endif %}
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.email.label(class_='form-label') }}
                 {{ form.email(size=32, class_='form-input') }}
+                {% if form.email.errors %}
+                <span class="error">{{ form.email.errors[0] }}</span>
+                {% endif %}
             </div>
             <div class="form-group password-container">
                 {{ form.password.label(class_='form-label') }}
                 {{ form.password(size=32, id="password", class_='form-input') }}
                 <img src="{{ url_for('static', filename='eye-closed.png') }}" id="togglePassword" class="eye-icon" alt="Toggle Password Visibility">
+                {% if form.password.errors %}
+                <span class="error">{{ form.password.errors[0] }}</span>
+                {% endif %}
+           {% endwith %}
+           
             </div>
                         <a href="#">Forgot Password?</a>
                 <button type="submit" class="btn btn-primary">Login</button>
