@@ -3,13 +3,14 @@ from flask import Flask, render_template, redirect, url_for, request, flash, g
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegistrationForm
-from db import get_db, query_db, execute_db, init_db, close_connection
+from db import get_db, query_db, execute_db, init_db, close_connection, init_app
 from models import User
 import email_validator
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError, InputRequired, Length, EqualTo
 from email_validator import validate_email, EmailNotValidError
+import logging
 
 db_initialized = False
 
@@ -17,6 +18,13 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+print("Initializing database")
+with app.app_context():
+    init_db()
+
+print("Initializing app")
+init_app(app)
 
 # Example user database
 users = {'user1': User(id=1, name='Dzhan Nezhdet', university='HWR', course_of_study='Wirtschaftsinformatik', semester='5', skills='web development', email='s_nezhdet22@stud.hwr-berlin.de', password='password')}
@@ -39,16 +47,19 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password', message='Passwords must match')])
     submit = SubmitField('Register')
 
-    @app.before_request
-    def initialize_db():
+logging.basicConfig(level=logging.DEBUG)
+
+@app.before_request
+def initialize_db():
         global db_initialized
-    if not db_initialized:
+if not db_initialized:
         with app.app_context():
             init_db()
         db_initialized = True
 
 @app.teardown_appcontext
-def close_db_connection(exception):
+def teardown(exception):
+    print("Tearing down app context")
     close_connection(exception)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -103,7 +114,5 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-        app.run(debug=True, host='0.0.0.0')
         with app.app_context():
             init_db()
-app.run(debug=True)
