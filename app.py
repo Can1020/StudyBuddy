@@ -3,13 +3,15 @@ from flask import Flask, render_template, redirect, url_for, request, flash, g
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import LoginForm, RegistrationForm
-from db import get_db, query_db, execute_db, init_db
+from db import get_db, query_db, execute_db, init_db, close_connection
 from models import User
 import email_validator
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError, InputRequired, Length, EqualTo
 from email_validator import validate_email, EmailNotValidError
+
+db_initialized = False
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -37,11 +39,23 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password', message='Passwords must match')])
     submit = SubmitField('Register')
 
+    @app.before_request
+    def initialize_db():
+        global db_initialized
+    if not db_initialized:
+        with app.app_context():
+            init_db()
+        db_initialized = True
+
+@app.teardown_appcontext
+def close_db_connection(exception):
+    close_connection(exception)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
         form = RegistrationForm()
         if form.validate_on_submit():
-            hashed_password = generate_password_hash(form.password.data, method='sha256')
+            hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
             try:
                 execute_db('INSERT INTO user (name, university, course_of_study, semester, skills, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)',
                            [form.name.data, form.university.data, form.course_of_study.data, form.semester.data, form.skills.data, form.email.data, hashed_password])
@@ -89,4 +103,7 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+        app.run(debug=True, host='0.0.0.0')
+        with app.app_context():
+            init_db()
+app.run(debug=True)

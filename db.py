@@ -6,10 +6,10 @@ from flask import app, current_app, g
 DATABASE = 'studybuddy.db'
 
 def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
+    if 'db' not in g:
+        g.db = sqlite3.connect('studybuddy.db')
+        g.db.row_factory = sqlite3.Row
+    return g.db
 
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
@@ -25,13 +25,14 @@ def execute_db(query, args=()):
     cur.close()
 
 def init_db():
-    with app.app_context():
         db = get_db()
-        with app.open_resource('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
+        table_exists = query_db("SELECT name FROM sqlite_master WHERE type='table' AND name='user';", one=True)
+        if table_exists is None:
+            with current_app.open_resource('schema.sql', mode='r') as f:
+                db.executescript(f.read())
         db.commit()
 
 def close_connection(exception):
-    db = getattr(g, '_database', None)
+    db = g.pop('db', None)
     if db is not None:
         db.close()
