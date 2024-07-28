@@ -8,3 +8,10 @@ CREATE TABLE user (
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS password_reset (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    token TEXT NOT NULL,
+    expires_at TIMESTAMP NOT NULL
+);

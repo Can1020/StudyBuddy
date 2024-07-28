@@ -26,3 +26,16 @@ class RegistrationForm(FlaskForm):
         password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=100)])
         confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password', message='Passwords must match')])
         submit = SubmitField('Register')
+
+class ForgotPasswordForm(FlaskForm):
+    email = StringField('University E-Mail', validators=[DataRequired(), Email()])
+    submit = SubmitField('Submit')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('New Password', validators=[DataRequired(), Length(min=8, max=100)])
+    confirm_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+    submit = SubmitField('Submit')
+
+def validate_email(form, field):
+    if '@stud.' not in field.data:
+     raise ValidationError('Please use your university email address.')

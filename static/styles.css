@@ -152,3 +152,17 @@ form a {
     color: red;
     font-size: 14px;
 }
+
+.message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+}

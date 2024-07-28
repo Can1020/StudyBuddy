@@ -11,6 +11,11 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError, InputRequired, Length, EqualTo
 from email_validator import validate_email, EmailNotValidError
 import logging
+from forms import ForgotPasswordForm, ResetPasswordForm
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Mail, Message
+import os
+from datetime import datetime, timedelta
 
 db_initialized = False
 
@@ -18,6 +23,17 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'studywithyourbuddy0@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Sbuddy2807!'
+app.config['MAIL_DEFAULT_SENDER'] = 'studywithyourbuddy0@gmail.com'
+
+mail = Mail(app)
+
+s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 print("Initializing database")
 with app.app_context():
@@ -61,6 +77,46 @@ if not db_initialized:
 def teardown(exception):
     print("Tearing down app context")
     close_connection(exception)
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    form = ForgotPasswordForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        user = query_db('SELECT * FROM user WHERE email = ?', [email], one=True)
+        if user:
+            token = s.dumps(email, salt='email-confirm')
+            expires_at = datetime.utcnow() + timedelta(minutes=15)
+            execute_db('INSERT INTO password_reset (email, token, expires_at) VALUES (?, ?, ?)', [email, token, expires_at])
+
+            msg = Message('Password Reset Request', sender='studywithyourbuddy0@gmail.com', recipients=[email])
+            link = url_for('reset_password', token=token, _external=True)
+            msg.body = f'Your password reset link is {link}'
+            mail.send(msg)
+
+            flash('Check your email for the instructions to reset your password', 'info')
+        else:
+            flash('Invalid email address', 'danger')
+    return render_template('forgot_password.html', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=3600)
+    except:
+        flash('The reset link is invalid or has expired', 'danger')
+        return redirect(url_for('forgot_password'))
+
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
+        execute_db('UPDATE user SET password = ? WHERE email = ?', [hashed_password, email])
+        execute_db('DELETE FROM password_reset WHERE email = ?', [email])
+
+        flash('Your password has been updated!', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('reset_password.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
