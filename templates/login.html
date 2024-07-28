@@ -11,23 +11,26 @@
         <h1>Welcome to StudyBuddy</h1>
         <h1>🎓</h1>
         <h2>login to start</h2>
-        {% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                    <ul class="flash-messages">
-                        {% for category, message in messages %}
-                            <li>class = "{{ category}}">{{message}}</li>
-                        {% endfor %}
-                    </ul>
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="{{ category }}">{{ message|safe }}</div>
+                    {% endfor %}
                 </div>
-           {% endif %}
+            {% endif %}
+        {% endwith %}
+
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ form.email.label(class_='form-label') }}
                 {{ form.email(size=32, class_='form-input') }}
-                {% if form.email.errors %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if form.email.errors %}
                 <span class="error">{{ form.email.errors[0] }}</span>
-                {% endif %}
+            {% endif %}
             </div>
             <div class="form-group password-container">
                 {{ form.password.label(class_='form-label') }}
@@ -35,8 +38,8 @@
                 <img src="{{ url_for('static', filename='eye-closed.png') }}" id="togglePassword" class="eye-icon" alt="Toggle Password Visibility">
                 {% if form.password.errors %}
                 <span class="error">{{ form.password.errors[0] }}</span>
-                {% endif %}
-           {% endwith %}
+            {% endif %}
+        {% endwith %}
            
             </div>
                         <a href="{{ url_for('forgetpassword') }}">Forgot Password?</a>

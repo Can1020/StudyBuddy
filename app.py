@@ -24,6 +24,7 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
+<<<<<<< HEAD
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -35,6 +36,13 @@ mail = Mail(app)
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
+=======
+logging.basicConfig(level=logging.DEBUG)
+
+@app.before_request
+def initialize_db():
+    g.db = get_db()
+>>>>>>> 71636662e9127a0ccbe62344d30498ae7f14194e
 print("Initializing database")
 with app.app_context():
     init_db()
@@ -51,27 +59,6 @@ def load_user(user_id):
     if user_data:
         return User(*user_data)
     return None
-
-class RegistrationForm(FlaskForm):
-    name = StringField('Name', validators=[InputRequired(), Length(min=2, max=50)])
-    university = StringField('University', validators=[InputRequired(), Length(min=2, max=100)])
-    course_of_study = StringField('Course of Study', validators=[InputRequired(), Length(min=2, max=100)])
-    semester = StringField('Semester', validators=[InputRequired(), Length(min=1, max=2)])
-    skills = StringField('Skills and Interests', validators=[InputRequired(), Length(min=2, max=200)])
-    email = StringField('University Email', validators=[InputRequired(), Email()])
-    password = PasswordField('Password', validators=[InputRequired(), Length(min=8, max=100)])
-    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('password', message='Passwords must match')])
-    submit = SubmitField('Register')
-
-logging.basicConfig(level=logging.DEBUG)
-
-@app.before_request
-def initialize_db():
-        global db_initialized
-if not db_initialized:
-        with app.app_context():
-            init_db()
-        db_initialized = True
 
 @app.teardown_appcontext
 def teardown(exception):
@@ -126,10 +113,10 @@ def register():
             try:
                 execute_db('INSERT INTO user (name, university, course_of_study, semester, skills, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)',
                            [form.name.data, form.university.data, form.course_of_study.data, form.semester.data, form.skills.data, form.email.data, hashed_password])
-                flash('Registration successful! Please log in.')
+                flash('Registration successful! Please log in.', 'success')
                 return redirect(url_for('login'))
             except sqlite3.IntegrityError:
-                flash('Email address already registered')
+                flash('Email address already registered' 'error')
         return render_template('register.html', form=form)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -139,9 +126,6 @@ def login():
         email = form.email.data
         password = form.password.data
         user_data = query_db('SELECT * FROM user WHERE email = ?', [email], one=True)
-
-
-        user = next((u for u in users.values() if u.email == email and u.password == password), None)
         if user_data and check_password_hash(user_data[8], password):
             user = User(*user_data)
             login_user(user)
@@ -170,5 +154,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-        with app.app_context():
-            init_db()
+    app.run(debug=True)

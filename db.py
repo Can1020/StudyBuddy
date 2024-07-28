@@ -24,24 +24,19 @@ def execute_db(query, args=()):
 
 def init_db():
         db = get_db()
-        table_exists = query_db("SELECT name FROM sqlite_master WHERE type='table' AND name='user';", one=True)
-        if table_exists is None:
-            with current_app.open_resource('schema.sql', mode='r') as f:
-                db.executescript(f.read())
+        with current_app.open_resource('schema.sql', mode='r') as f:
+            db.executescript(f.read())
         db.commit()
 
 def init_app(app):
     app.teardown_appcontext(close_connection)
     app.cli.add_command(init_db_command, name='init-db')
 
-
-@click.command('init-db')
 def init_db_command():
-    """Clear existing data and create new tables."""
-    init_db()
-    click.echo('Initialized the database.')
+    app.teardown_appcontext(close_connection)
+    app.cli.add_command(init_db_command)
 
-def close_connection(_):
+def close_connection(exception):
     db = g.pop('db', None)
     if db is not None:
         db.close()
