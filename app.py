@@ -24,7 +24,6 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-<<<<<<< HEAD
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -36,13 +35,11 @@ mail = Mail(app)
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
-=======
 logging.basicConfig(level=logging.DEBUG)
 
 @app.before_request
 def initialize_db():
     g.db = get_db()
->>>>>>> 71636662e9127a0ccbe62344d30498ae7f14194e
 print("Initializing database")
 with app.app_context():
     init_db()

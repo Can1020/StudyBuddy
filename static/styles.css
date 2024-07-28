@@ -151,7 +151,6 @@ form a {
 .flashes li {
     color: red;
     font-size: 14px;
-<<<<<<< HEAD
 }
 
 .message {
@@ -166,6 +165,4 @@ form {
     padding: 20px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.8);
-=======
->>>>>>> 71636662e9127a0ccbe62344d30498ae7f14194e
 }
