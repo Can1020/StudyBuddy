@@ -6,6 +6,7 @@
     ```bash
     pip install Flask Flask-SocketIO
     pip install Flask Flask-wtf
+    pip install Flask-Mail
     ```
 3. Run the application:
     ```bash
@@ -23,6 +24,7 @@ StudyBuddy is an innovative app that aims to facilitate networking among student
 - SQLite
 - HTML
 - CSS
+- Flask - Mail
 
 ## Features
 - Login with university email.

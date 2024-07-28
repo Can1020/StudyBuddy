@@ -1,3 +1,4 @@
+from math import e
 import sqlite3
 from flask import Flask, render_template, redirect, url_for, request, flash, g
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
@@ -142,7 +143,14 @@ def login():
 @app.route('/welcome')
 @login_required
 def welcome():
-    return f"Welcome to StudyBuddy, {current_user.email}!"
+    # Example data without image URLs
+    users = [
+        {"name": "Max", "age": 26, "university": "TU Berlin", "location": "Berlin", "course": "Architecture - Master", "semester": 1, "skills": "Digital Design"},
+        {"name": "Aisha", "age": 22, "university": "HWR Berlin", "location": "Berlin", "course": "BBA - Bachelor", "semester": 4, "skills": "Marketing"},
+        {"name": "Susi", "age": 24, "university": "University of London", "location": "London", "course": "Law - Bachelor", "semester": 7, "skills": "Labor Law"},
+        {"name": "Ali", "age": 28, "university": "University of Cologne", "location": "Köln", "course": "Economics - Master", "semester": 5, "skills": "Economics"}
+    ]
+    return render_template('welcome.html', users=users)
 
 @app.route('/logout')
 @login_required
