@@ -9,15 +9,19 @@
 <body>
     <div class="navbar">
         <h1 class="logo">StudyBuddy</h1>
-        <ul class="nav-links">
-            <li><a href="#">Search</a></li>
-            <li><a href="#">Messages</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-        </ul>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
     </div>
     <div class="container">
-        <div class="users-list">
+        <h2>Welcome, {{ current_user.name }}</h2>
+        <div class="users">
             {% for user in users %}
             <div class="user-card">
                 <h2>{{ user.name }} <span>{{ user.age }}</span></h2>

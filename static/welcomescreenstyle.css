@@ -1,6 +1,6 @@
 body {
     font-family: 'SF Pro', sans-serif;
-    background: linear-gradient(#D3FCFF, #72A0FA);
+    background: #FFFFFF;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -11,8 +11,6 @@ body {
 
 .navbar {
     width: 100%;
-    background-color: #1149A0;
-    color: white;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -20,6 +18,8 @@ body {
 }
 
 .navbar .logo {
+    background-color: #1149A0;
+    color: white;
     font-size: 24px;
     font-weight: bold;
 }
@@ -48,9 +48,11 @@ body {
     gap: 20px;
 }
 
-.users-list {
+.users {
     display: flex;
+    justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .user-card {
@@ -59,10 +61,10 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 200px;
-    text-align: center;
+    text-align: left;
 }
 
-.user-card h2 {
+.user-card h3 {
     font-size: 20px;
     margin: 10px 0;
 }
@@ -78,10 +80,12 @@ body {
 }
 
 .user-card .actions {
+    display: flex;
+    justify-content: space-between;
     margin-top: 10px;
 }
 
-.user-card .reject, .user-card .accept {
+.user-card .reject{
     background-color: #ff4d4d;
     border: none;
     color: white;
@@ -92,5 +96,6 @@ body {
 }
 
 .user-card .accept {
-    background-color: #4caf50;
+    background-color:#4caf50;
+    color: whitesmoke
 }

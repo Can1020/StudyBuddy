@@ -11,7 +11,7 @@ def get_db():
 
 def query_db(query, args=(), one=False):
     cur = get_db().execute(query, args)
-    rv = cur.fetchall()
+    rv = [dict((cur.description[idx][0], value) for idx, value in enumerate(row)) for row in cur.fetchall()] ##returns a dictionary instead of a tuple (for clarity and better error handling)
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
