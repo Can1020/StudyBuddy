@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>StudyBuddy Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-sidebar">
+            <h2>Chats</h2>
+            <ul id="rooms">
+                <!-- Rooms will be listed here -->
+            </ul>
+        </div>
+        <div class="chat-main">
+            <div class="chat-header">
+                <h2>Room: <span id="room-name">General</span></h2>
+            </div>
+            <div class="chat-messages" id="messages">
+                <!-- Messages will be displayed here -->
+            </div>
+            <div class="chat-form">
+                <input id="msg" type="text" placeholder="Enter message">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+            var username = "{{ username }}";
+            var room = 'General';
+            joinRoom(room);
+
+            socket.on('message', function(data) {
+                $('#messages').append('<p><strong>' + data.username + ':</strong> ' + data.msg + '</p>');
+            });
+
+            $('#send-btn').on('click', function() {
+                var msg = $('#msg').val();
+                socket.emit('message', {'msg': msg, 'username': username, 'room': room});
+                $('#msg').val('');
+            });
+
+            function joinRoom(room) {
+                socket.emit('join', {'username': username, 'room': room});
+            }
+
+            function leaveRoom(room) {
+                socket.emit('leave', {'username': username, 'room': room});
+            }
+        });
+    </script>
+</body>
+</html>

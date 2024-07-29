@@ -1,3 +1,4 @@
+import socket
 import sqlite3
 from flask import Flask, render_template, redirect, url_for, request, flash, g
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
@@ -16,6 +17,8 @@ from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Mail, Message
 import os
 from datetime import datetime, timedelta
+from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask import session
 
 db_initialized = False
 
@@ -23,6 +26,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+socketio = SocketIO(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -143,6 +147,33 @@ def login():
 @login_required
 def welcome():
     return f"Welcome to StudyBuddy, {current_user.email}!"
+
+@app.route('/chat')
+@login_required
+def chat():
+    return render_template('chat.html', username=current_user.name)
+
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    emit('message', {'msg': f'{username} has entered the room.'}, room=room)
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    emit('message', {'msg': f'{username} has left the room.'}, room=room)
+
+@socketio.on('message')
+def handle_message(data):
+    room = data['room']
+    emit('message', {'msg': data['msg'], 'username': data['username']}, room=room)
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
 
 @app.route('/logout')
 @login_required
