@@ -1,29 +1,31 @@
 import socket
+from math import e
 import sqlite3
 from flask import Flask, render_template, redirect, url_for, request, flash, g
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import LoginForm, RegistrationForm
 from db import get_db, query_db, execute_db, init_db, close_connection, init_app
 from models import User
 import email_validator
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, ValidationError, InputRequired, Length, EqualTo
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms.validators import DataRequired, Email, ValidationError, InputRequired, Length, EqualTo, NumberRange
 from email_validator import validate_email, EmailNotValidError
 import logging
-from forms import ForgotPasswordForm, ResetPasswordForm
+from forms import ForgotPasswordForm, ResetPasswordForm, LoginForm, RegistrationForm
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Mail, Message
 import os
 from datetime import datetime, timedelta
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import session
+import random
 
 db_initialized = False
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['DATABASE'] = 'database.db'
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 socketio = SocketIO(app)
@@ -52,7 +54,7 @@ print("Initializing app")
 init_app(app)
 
 # Example user database
-users = {'user1': User(id=1, name='Dzhan Nezhdet', university='HWR', course_of_study='Wirtschaftsinformatik', semester='5', skills='web development', email='s_nezhdet22@stud.hwr-berlin.de', password='password')}
+users = {'user1': User(id=1, name='Dzhan Nezhdet', age = '23', location = 'Berlin', university='HWR', course_of_study='Wirtschaftsinformatik', semester='5', skills='web development', email='s_nezhdet22@stud.hwr-berlin.de', password='password')}
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -103,7 +105,6 @@ def reset_password(token):
 
         flash('Your password has been updated!', 'success')
         return redirect(url_for('login'))
-
     return render_template('reset_password.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -112,8 +113,8 @@ def register():
         if form.validate_on_submit():
             hashed_password = generate_password_hash(form.password.data, method='pbkdf2:sha256')
             try:
-                execute_db('INSERT INTO user (name, university, course_of_study, semester, skills, email, password) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                           [form.name.data, form.university.data, form.course_of_study.data, form.semester.data, form.skills.data, form.email.data, hashed_password])
+                execute_db('INSERT INTO user (name, age, location, university, course_of_study, semester, skills, email, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [form.name.data, int(form.age.data), form.location.data, form.university.data, form.course_of_study.data, form.semester.data, form.skills.data, form.email.data, hashed_password])
                 flash('Registration successful! Please log in.', 'success')
                 return redirect(url_for('login'))
             except sqlite3.IntegrityError:
@@ -127,10 +128,14 @@ def login():
         email = form.email.data
         password = form.password.data
         user_data = query_db('SELECT * FROM user WHERE email = ?', [email], one=True)
-        if user_data and check_password_hash(user_data[8], password):
-            user = User(*user_data)
-            login_user(user)
-            return redirect(url_for('welcome'))
+
+        if user_data:
+            is_password_correct = check_password_hash(user_data['password'], password)
+
+            if is_password_correct:
+                user = User(*user_data.values())
+                login_user(user)
+                return redirect(url_for('welcome'))
         if user:
             if user.email != email:
                 flash('Invalid email')
@@ -146,7 +151,36 @@ def login():
 @app.route('/welcome')
 @login_required
 def welcome():
-    return f"Welcome to StudyBuddy, {current_user.email}!"
+    users = query_db('SELECT name, age, location, university, location, course_of_study, semester, skills FROM user WHERE id != ?', [current_user.id])
+    random.shuffle(users)
+    return render_template('welcome.html', users=users)
+
+@app.route('/chat')
+@login_required
+def chat():
+    return render_template('chat.html', username=current_user.name)
+
+@socketio.on('join')
+def on_join(data):
+    username = data['username']
+    room = data['room']
+    join_room(room)
+    emit('message', {'msg': f'{username} has entered the room.'}, room=room)
+
+@socketio.on('leave')
+def on_leave(data):
+    username = data['username']
+    room = data['room']
+    leave_room(room)
+    emit('message', {'msg': f'{username} has left the room.'}, room=room)
+
+@socketio.on('message')
+def handle_message(data):
+    room = data['room']
+    emit('message', {'msg': data['msg'], 'username': data['username']}, room=room)
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)
 
 @app.route('/chat')
 @login_required
@@ -179,7 +213,7 @@ if __name__ == '__main__':
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('login.html'))
 
 if __name__ == '__main__':
     app.run(debug=True)
