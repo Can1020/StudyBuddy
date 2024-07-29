@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matches - StudyBuddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='welcomestyle.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="{{ url_for('welcome') }}">Home</a></li>
+            <li><a href="#">Search</a></li>
+            <li><a href="#">Messages</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
+    </div>
+    <div class="match-container">
+        <h2>Your Matches</h2>
+        {% for match in matches %}
+        <div class="match-card">
+            <h3>{{ match['name'] }}</h3>
+            <p>{{ match['university'] }}</p>
+            <p>Lives in {{ match['location'] }}</p>
+            <a href="{{ url_for('chat', user_id=match['id']) }}">Chat</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

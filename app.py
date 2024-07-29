@@ -1,7 +1,6 @@
-import socket
 from math import e
 import sqlite3
-from flask import Flask, render_template, redirect, url_for, request, flash, g
+from flask import Flask, jsonify, render_template, redirect, url_for, request, flash, g
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from db import get_db, query_db, execute_db, init_db, close_connection, init_app
@@ -155,59 +154,76 @@ def welcome():
     random.shuffle(users)
     return render_template('welcome.html', users=users)
 
-@app.route('/chat')
+@app.route('/like', methods=['POST'])
 @login_required
-def chat():
-    return render_template('chat.html', username=current_user.name)
+def like_user():
+    data = request.get_json()
+    liked_user_id = data['liked_user_id']
+
+    # Check if a match already exists
+    match_exists = query_db('SELECT * FROM matches WHERE (user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)',
+                            [current_user.id, liked_user_id, liked_user_id, current_user.id], one=True)
+
+    if match_exists:
+        return jsonify({'match': True})
+
+    # Insert the like into the database
+    execute_db('INSERT INTO likes (user_id, liked_user_id) VALUES (?, ?)', [current_user.id, liked_user_id])
+
+    # Check if the other user liked this user back
+    reciprocal_like = query_db('SELECT * FROM likes WHERE user_id = ? AND liked_user_id = ?', [liked_user_id, current_user.id], one=True)
+
+    if reciprocal_like:
+        # Create a match
+        execute_db('INSERT INTO matches (user1_id, user2_id) VALUES (?, ?)', [current_user.id, liked_user_id])
+        return jsonify({'match': True})
+
+    return jsonify({'match': False})
+
+@app.route('/dislike/<int:user_id>', methods=['POST'])
+@login_required
+def dislike_user(user_id):
+    # Logic for dislike can be added if needed, e.g., tracking dislikes
+    return redirect(url_for('welcome'))
+
+@app.route('/matches')
+@login_required
+def matches():
+    matches = query_db('SELECT * FROM matches WHERE user1_id = ? OR user2_id = ?', [current_user.id, current_user.id])
+    match_users = []
+    for match in matches:
+        user_id = match['user1_id'] if match['user2_id'] == current_user.id else match['user2_id']
+        user = query_db('SELECT * FROM user WHERE id = ?', [user_id], one=True)
+        match_users.append(user)
+    return render_template('matches.html', matches=match_users)
+
+@app.route('/chat/<int:match_id>')
+@login_required
+def chat(match_id):
+    match_user = query_db('SELECT * FROM user WHERE id = ?', [match_id], one=True)
+    if match_user:
+        room = f"{min(current_user.id, match_id)}_{max(current_user.id, match_id)}"
+        return render_template('chat.html', room=room, username=current_user.name, match_username=match_user['name'])
+    else:
+        flash('Invalid match ID', 'danger')
+    
+        return redirect(url_for('chat'))
+
+@socketio.on('send_message')
+def handle_send_message(data):
+    room = data['room']
+    message = data['message']
+    emit('receive_message', {'message': message, 'username': data['username']}, room=room)
 
 @socketio.on('join')
-def on_join(data):
-    username = data['username']
+def handle_join(data):
     room = data['room']
     join_room(room)
-    emit('message', {'msg': f'{username} has entered the room.'}, room=room)
 
 @socketio.on('leave')
-def on_leave(data):
-    username = data['username']
+def handle_leave(data):
     room = data['room']
     leave_room(room)
-    emit('message', {'msg': f'{username} has left the room.'}, room=room)
-
-@socketio.on('message')
-def handle_message(data):
-    room = data['room']
-    emit('message', {'msg': data['msg'], 'username': data['username']}, room=room)
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
-
-@app.route('/chat')
-@login_required
-def chat():
-    return render_template('chat.html', username=current_user.name)
-
-@socketio.on('join')
-def on_join(data):
-    username = data['username']
-    room = data['room']
-    join_room(room)
-    emit('message', {'msg': f'{username} has entered the room.'}, room=room)
-
-@socketio.on('leave')
-def on_leave(data):
-    username = data['username']
-    room = data['room']
-    leave_room(room)
-    emit('message', {'msg': f'{username} has left the room.'}, room=room)
-
-@socketio.on('message')
-def handle_message(data):
-    room = data['room']
-    emit('message', {'msg': data['msg'], 'username': data['username']}, room=room)
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
 
 @app.route('/logout')
 @login_required
@@ -216,4 +232,5 @@ def logout():
     return redirect(url_for('login.html'))
 
 if __name__ == '__main__':
+    socketio.run(app, debug=True)
     app.run(debug=True)

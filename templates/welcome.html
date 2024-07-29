@@ -11,9 +11,8 @@
         <h1 class="logo">StudyBuddy</h1>
         <nav>
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
                 <li><a href="#">Search</a></li>
-                <li><a href="#">Messages</a></li>
+                <li><a href="{{ url_for('chat')}}">Messages</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
@@ -30,12 +29,60 @@
                 <p><i class="fas fa-graduation-cap"></i> {{ user.course }} - {{ user.semester }}. Semester</p>
                 <p><i class="fas fa-star"></i> {{ user.skills }}</p>
                 <div class="actions">
-                    <button class="reject">X</button>
-                    <button class="accept">✓</button>
+                    <button class="like-btn">✓</button>
+                    <button class="dislike-btn">X</button>
                 </div>
             </div>
             {% endfor %}
         </div>
+        <div id="match-notification" class="hidden">
+            <p>You have a new match!</p>
+            <button id="chat-now-btn">Say Hi to match_username </button>
+            <button id="close-notification-btn">Dismiss</button>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.like-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.closest('.user-card').getAttribute('data-user-id');
+                        fetch('/like', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ liked_user_id: userId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.match) {
+                                alert('You have a new match!');
+                                // Redirect to the chat screen or show the match notification
+                            } else {
+                                // Remove the liked user card
+                                this.closest('.user-card').remove();
+                            }
+                        });
+                    });
+                });
+    
+                document.querySelectorAll('.dislike-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Remove the disliked user card
+                        this.closest('.user-card').remove();
+                    });
+                });
+                document.getElementById('chat-now-btn').addEventListener('click', function() {
+                    const matchId = sessionStorage.getItem('match_id');
+                    if (matchId) {
+                        window.location.href = `/chat/${matchId}`;
+                }
+            });
+
+                document.getElementById('close-notification-btn').addEventListener('click', function() {
+                    document.getElementById('match-notification').classList.add('hidden');
+            });
+        });
+        </script>
     </div>
 </body>
 </html>
