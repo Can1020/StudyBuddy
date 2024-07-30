@@ -12,21 +12,21 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="#">Search</a></li>
-                <li><a href="{{ url_for('chat')}}">Messages</a></li>
+                <li><a href="{{ url_for('chats')}}">Messages</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
         </nav>
     </div>
     <div class="container">
-        <h2>Welcome, {{ current_user.name }}</h2>
+<h2>Welcome, {{ current_user.name }}</h2>
         <div class="users">
             {% for user in users %}
-            <div class="user-card">
+            <div class="user-card" data-user-id="{{ user.id }}">
                 <h2>{{ user.name }} <span>{{ user.age }}</span></h2>
                 <p><i class="fas fa-university"></i> {{ user.university }}</p>
                 <p><i class="fas fa-map-marker-alt"></i> Lives in {{ user.location }}</p>
-                <p><i class="fas fa-graduation-cap"></i> {{ user.course }} - {{ user.semester }}. Semester</p>
+                <p><i class="fas fa-graduation-cap"></i> {{ user.course_of_study }} - {{ user.semester }}. Semester</p>
                 <p><i class="fas fa-star"></i> {{ user.skills }}</p>
                 <div class="actions">
                     <button class="like-btn">✓</button>
@@ -55,7 +55,8 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.match) {
-                                alert('You have a new match!');
+                                document.getElementById('match-notification').classList.remove('hidden');
+                                document.getElementById('match-username').innerText = data.match_username;
                                 // Redirect to the chat screen or show the match notification
                             } else {
                                 // Remove the liked user card

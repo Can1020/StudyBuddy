@@ -151,8 +151,9 @@ def login():
 @login_required
 def welcome():
     users = query_db('SELECT name, age, location, university, location, course_of_study, semester, skills FROM user WHERE id != ?', [current_user.id])
+    matches= query_db('SELECT * FROM matches WHERE user1_id = ? OR user2_id = ?', [current_user.id, current_user.id])
     random.shuffle(users)
-    return render_template('welcome.html', users=users)
+    return render_template('welcome.html', users=users, current_user=current_user, matches=matches)
 
 @app.route('/like', methods=['POST'])
 @login_required
@@ -176,7 +177,7 @@ def like_user():
     if reciprocal_like:
         # Create a match
         execute_db('INSERT INTO matches (user1_id, user2_id) VALUES (?, ?)', [current_user.id, liked_user_id])
-        return jsonify({'match': True})
+        return jsonify({'match': True, 'match_user':reciprocal_like})
 
     return jsonify({'match': False})
 
@@ -195,19 +196,29 @@ def matches():
         user_id = match['user1_id'] if match['user2_id'] == current_user.id else match['user2_id']
         user = query_db('SELECT * FROM user WHERE id = ?', [user_id], one=True)
         match_users.append(user)
-    return render_template('matches.html', matches=match_users)
+    return render_template('match.html', matches=match_users)
 
-@app.route('/chat/<int:match_id>')
+@app.route('/chats')
+@login_required
+def chats ():
+    existing_chats = query_db('SELECT * FROM matches WHERE user1_id = ? OR user2_id = ?', [current_user.id, current_user.id])
+    chat_users = []
+    for chat in existing_chats:
+        user_id = chat['user1_id'] if chat['user2_id'] == current_user.id else chat['user2_id']
+        user = query_db('SELECT * FROM user WHERE id = ?', [user_id], one=True)
+        chat_users.append(user)
+    return render_template('chats.html', chat_users=chat_users)
+
+@app.route('/chat/,<int:match_id>')
 @login_required
 def chat(match_id):
-    match_user = query_db('SELECT * FROM user WHERE id = ?', [match_id], one=True)
+    match_user = query_db('SELECT * FROM matches WHERE id = ?', [match_id], one=True)
     if match_user:
-        room = f"{min(current_user.id, match_id)}_{max(current_user.id, match_id)}"
-        return render_template('chat.html', room=room, username=current_user.name, match_username=match_user['name'])
+        room = f"{min(current_user.id, match_id)}-{max(current_user.id, match_id)}"
+        return render_template('chat.html', username=current_user.name, match_username=match_user['name'], room=room)
     else:
-        flash('Invalid match ID', 'danger')
-    
-        return redirect(url_for('chat'))
+        flash('Chat not found', 'danger')
+        return redirect(url_for('matches'))
 
 @socketio.on('send_message')
 def handle_send_message(data):

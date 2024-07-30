@@ -15,7 +15,7 @@
         <ul>
             <li><a href="{{ url_for('welcome') }}">Home</a></li>
             <li><a href="#">Search</a></li>
-            <li><a href="#">Messages</a></li>
+            <li><a href="{{ url_for('chats') }}">Messages</a></li>
             <li><a href="#">Profile</a></li>
         </ul>
     </div>
@@ -26,7 +26,7 @@
         <div class="chat-box" id="chat-box"></div>
         <div class="chat-input">
             <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="emoji-btn">😊</button>
+            <button id="emoji-btn">🙂</button>
             <button id="send-btn">Send</button>
         </div>
     </div>
