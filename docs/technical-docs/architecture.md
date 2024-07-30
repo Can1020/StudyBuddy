@@ -8,7 +8,7 @@ nav_order: 1
 [Kadir Aksoy]
 
 
-# AppArchitecture
+# Architecture
 {: .no_toc }
 
 {: .attention }
