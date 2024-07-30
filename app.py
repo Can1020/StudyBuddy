@@ -195,7 +195,7 @@ def matches():
         user_id = match['user1_id'] if match['user2_id'] == current_user.id else match['user2_id']
         user = query_db('SELECT * FROM user WHERE id = ?', [user_id], one=True)
         match_users.append(user)
-    return render_template('matches.html', matches=match_users)
+    return render_template('match.html', matches=match_users)
 
 @app.route('/chat/<int:match_id>')
 @login_required

@@ -12,7 +12,7 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="#">Search</a></li>
-                <li><a href="{{ url_for('chat')}}">Messages</a></li>
+                <li><a href="{{ url_for('chat', match_id=match.id)}}">Messages</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
             </ul>
