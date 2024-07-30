@@ -22,7 +22,7 @@
 <h2>Welcome, {{ current_user.name }}</h2>
         <div class="users">
             {% for user in users %}
-            <div class="user-card">
+            <div class="user-card" data-user-id="{{ user.id }}">
                 <h2>{{ user.name }} <span>{{ user.age }}</span></h2>
                 <p><i class="fas fa-university"></i> {{ user.university }}</p>
                 <p><i class="fas fa-map-marker-alt"></i> Lives in {{ user.location }}</p>
