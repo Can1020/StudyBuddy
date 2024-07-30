@@ -22,7 +22,7 @@
             <h3>{{ match['name'] }}</h3>
             <p>{{ match['university'] }}</p>
             <p>Lives in {{ match['location'] }}</p>
-            <a href="{{ url_for('chat', user_id=match['id']) }}">Chat</a>
+            <a href="{{ url_for('chat', match_id=match['id']) }}">Chat</a>
         </div>
         {% endfor %}
     </div>
