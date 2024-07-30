@@ -153,7 +153,7 @@ def welcome():
     users = query_db('SELECT name, age, location, university, location, course_of_study, semester, skills FROM user WHERE id != ?', [current_user.id])
     matches= query_db('SELECT * FROM matches WHERE user1_id = ? OR user2_id = ?', [current_user.id, current_user.id])
     random.shuffle(users)
-    return render_template('welcome.html', users=users, matches=matches)
+    return render_template('welcome.html', users=users, current_user=current_user, matches=matches)
 
 @app.route('/like', methods=['POST'])
 @login_required
