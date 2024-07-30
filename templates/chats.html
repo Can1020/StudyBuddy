@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chats - StudyBuddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='chats.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="{{ url_for('welcome') }}">Home</a></li>
+            <li><a href="#">Search</a></li>
+            <li><a href="{{ url_for('chats') }}">Messages</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
+    </div>
+    <div class="chat-container">
+        <div class="matches">
+            <h2>Your Matches</h2>
+            <div class="match-list">
+                {% for match in matches %}
+                <div class="match-circle">
+                    <a href="{{ url_for('chat', match_id=match['id']) }}">
+                        <img src="{{ url_for('static', filename='default-profile.png') }}" alt="{{ match['name'] }}">
+                        <p>{{ match['name'] }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="chat-list">
+            <h2>Your Chats</h2>
+            <div class="chat-users">
+                {% for chat in chats %}
+                <div class="chat-card">
+                    <a href="{{ url_for('chat', match_id=chat['id']) }}">
+                        <p>{{ chat['name'] }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
