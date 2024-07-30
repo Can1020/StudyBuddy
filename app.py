@@ -177,7 +177,7 @@ def like_user():
     if reciprocal_like:
         # Create a match
         execute_db('INSERT INTO matches (user1_id, user2_id) VALUES (?, ?)', [current_user.id, liked_user_id])
-        return jsonify({'match': True})
+        return jsonify({'match': True, 'match_user':reciprocal_like})
 
     return jsonify({'match': False})
 

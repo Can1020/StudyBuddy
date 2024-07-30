@@ -55,7 +55,8 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.match) {
-                                alert('You have a new match!');
+                                document.getElementById('match-notification').classList.remove('hidden');
+                                document.getElementById('match-username').innerText = data.match_username;
                                 // Redirect to the chat screen or show the match notification
                             } else {
                                 // Remove the liked user card
