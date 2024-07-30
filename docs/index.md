@@ -2,8 +2,10 @@
 title: Home
 nav_order: 0
 ---
+{: .label }
+Dzhan Nezhdet, Kadir Aksoy
 
-# StudyBuddy
+## StudyBuddy
 
 StudyBuddy ist eine innovative App, die darauf abzielt, die Vernetzung unter Studenten zu erleichtern und eine unterstützende Gemeinschaft für akademische Zusammenarbeit zu schaffen. Anstatt alleine zu lernen, bietet StudyBuddy eine Plattform, auf der sich Studenten miteinander verbinden können, um Lerngruppen zu bilden und sich gegenseitig zu unterstützen.
 
