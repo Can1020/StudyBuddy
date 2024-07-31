@@ -1,8 +1,24 @@
 from flask_login import UserMixin
+from app import db
+from werkzeug.security import check_password_hash
+import sqlalchemy as sa
+import sqlalchemy.orm as so
 
-class User(UserMixin):
-    def __init__(self, id, name, age, location, university, course_of_study, semester, skills, email, password):
-        self.id = id
+
+class User(UserMixin, db.Model):
+    __tablename__ = "user"
+    id = so.mapped_column(sa.Integer, primary_key=True)
+    name = so.mapped_column(sa.String)
+    age = so.mapped_column(sa.Integer)
+    location = so.mapped_column(sa.String)
+    university = so.mapped_column(sa.String)
+    course_of_study = so.mapped_column(sa.String)
+    semester = so.mapped_column(sa.String)
+    skills = so.mapped_column(sa.String)
+    email = so.mapped_column(sa.String)
+    password = so.mapped_column(sa.String)
+
+    def __init__(self, name, age, location, university, course_of_study, semester, skills, email, password):
         self.name = name
         self.age = age
         self.location = location
@@ -12,3 +28,26 @@ class User(UserMixin):
         self.skills = skills
         self.email = email
         self.password = password
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+
+class Matches(db.Model):
+    __tablename__ = "matches"
+    id = so.mapped_column(sa.Integer, primary_key=True)
+    user1_id = so.mapped_column(sa.Integer)
+    user2_id = so.mapped_column(sa.Integer)
+
+class Likes(db.Model):
+    __tablename__ = "likes"
+    id = so.mapped_column(sa.Integer, primary_key=True)
+    user_id = so.mapped_column(sa.Integer)
+    liked_user_id = so.mapped_column(sa.Integer)
+
+class PasswordReset(db.Model):
+    __tablename__ = "password_reset"
+    id = so.mapped_column(sa.Integer, primary_key=True)
+    email = so.mapped_column(sa.String)
+    token = so.mapped_column(sa.String)
+    expires_at = so.mapped_column(sa.DateTime)
