@@ -6,9 +6,9 @@
     <title>Chat - StudyBuddy</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.3/dist/emoji-button.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.3/dist/emoji-button.min.css">
 </head>
 <body>
     <div class="navbar">
@@ -21,7 +21,11 @@
         <div class="chat-header">
             <h2>Chat with {{ match_username }}</h2>
         </div>
-        <div class="chat-box" id="chat-box"></div>
+        <div class="chat-box" id="chat-box">
+    {% for message in messages %}
+        <div><strong>{{ message.user.name }}:</strong> {{ message.message }}</div>
+    {% endfor %}
+</div>
         <div class="chat-input">
             <input type="text" id="message-input" placeholder="Type a message...">
             <button id="emoji-btn">🙂</button>
@@ -48,9 +52,8 @@
                 socket.emit('send_message', {'room': room, 'message': message, 'username': username});
                 $('#message-input').val('');
             });
-
             const picker = new EmojiButton();
-            picker.on('emoji', emoji => {
+            picker.on('emoji-btn', emoji => {
                 document.querySelector('#message-input').value += emoji;
             });
 

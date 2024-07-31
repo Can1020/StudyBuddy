@@ -51,3 +51,14 @@ class PasswordReset(db.Model):
     email = so.mapped_column(sa.String)
     token = so.mapped_column(sa.String)
     expires_at = so.mapped_column(sa.DateTime)
+
+class Message(db.Model):
+    __tablename__ = "messages"
+    id = sa.Column(sa.Integer, primary_key=True)
+    room = sa.Column(sa.String, nullable=False)
+    user_id = sa.Column(sa.Integer,sa.ForeignKey('user.id'), nullable=False)
+    message = sa.Column(sa.String, nullable=False)
+    timestamp = sa.Column(sa.DateTime, default=sa.func.current_timestamp())
+    
+    user = db.relationship('User', backref='messages')
+

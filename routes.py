@@ -17,6 +17,8 @@ import random
 from models import User, Matches, Likes, PasswordReset
 from forms import LoginForm, ForgotPasswordForm, RegistrationForm, ResetPasswordForm
 from utils import get_serializer
+from models import Message
+from flask import jsonify
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -57,21 +59,33 @@ def login():
     return render_template("login.html", form=form)
 
 
-@app.route("/welcome")
+@app.route('/welcome')
 @login_required
 def welcome():
     users = User.query.filter(User.id != current_user.id).all()
-    matches = (
-        Matches.query.filter(Matches.user1_id == current_user.id)
-        .filter(Matches.user2_id != current_user.id)
-        .all()
+    matches = Matches.query.filter(
+        sa.or_(
+        (Matches.user1_id == current_user.id) | 
+        (Matches.user2_id == current_user.id)
+        )
+    ).all()
+
+    new_match = any(
+
+        match.user1_id == current_user.id and not Likes.query.filter_by(user_id=match.user2_id, liked_user_id=current_user.id).first() or
+        match.user2_id == current_user.id and not Likes.query.filter_by(user_id=match.user1_id, liked_user_id=current_user.id).first()
+        for match in matches
     )
-    if not matches:
-        matches = None
+
+    likes = Likes.query.filter_by(user_id=current_user.id).all()
+    for like in likes:
+        reciprocal_like = Likes.query.filter_by(user_id=like.liked_user_id, liked_user_id=current_user.id).first()
+        if reciprocal_like:
+            new_match = reciprocal_like
+            break
     random.shuffle(users)
-    return render_template(
-        "welcome.html", users=users, current_user=current_user, matches=matches
-    )
+
+    return render_template('welcome.html', users=users, matches=matches, new_match=new_match)
 
 
 @app.route("/forgot_password", methods=["GET", "POST"])
@@ -210,21 +224,26 @@ def matches():
         match_users.append(user)
     return render_template("match.html", matches=match_users)
 
-@app.route("/chat/<int:match_id>")
+@app.route('/chat/<int:match_id>')
 @login_required
 def chat(match_id):
-    match_user = db.session.scalar(sa.select(User).where(User.id == match_id))
+    match_user = db.session.get(User, match_id)
     if match_user:
         room = f"{min(current_user.id, match_id)}_{max(current_user.id, match_id)}"
-        return render_template("chat.html", room=room, username=current_user.name, match_username=match_user.name)
+        messages = Message.query.filter_by(room=room).order_by(Message.timestamp).all()
+        return render_template('chat.html', room=room, username=current_user.name, match_username=match_user.name, messages=messages)
     else:
-        flash("Invalid match ID", "danger")
-        return redirect(url_for("matches"))
+        flash('Invalid match ID', 'danger')
+        return redirect(url_for('matches'))
 
 @socketio.on('send_message')
 def handle_send_message(data):
     room = data['room']
     message = data['message']
+    user_id = current_user.id
+    new_message = Message(room=room, user_id=user_id, message=message)
+    db.session.add(new_message)
+    db.session.commit()
     emit('receive_message', {'message': message, 'username': data['username']}, room=room)
 
 @socketio.on('join')
@@ -236,3 +255,7 @@ def handle_join(data):
 def handle_leave(data):
     room = data['room']
     leave_room(room)
+
+@app.route("/emoji_button", methods=["GET"])
+def EmojiButton():
+        return jsonify({"emoji": "👍"})

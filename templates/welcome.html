@@ -33,10 +33,7 @@
             </div>
             {% endfor %}
         </div>
-        <div id="match-notification" class="hidden">
-            <p>You have a new match!</p>
-            <button id="chat-now-btn">Say Hi to match_username </button>
-            <button id="close-notification-btn">Dismiss</button>
+        <div id="match-notification" class="{% if not new_match %}hidden{% endif %}">
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -53,9 +50,9 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.match) {
+                                alert('You have a new match!');
                                 document.getElementById('match-notification').classList.remove('hidden');
-                                document.getElementById('match-username').innerText = data.match_username;
-                                // Redirect to the chat screen or show the match notification
+                                sessionStorage.setItem('match_id', userId);
                             } else {
                                 // Remove the liked user card
                                 this.closest('.user-card').remove();
