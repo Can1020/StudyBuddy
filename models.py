@@ -31,7 +31,9 @@ class User(UserMixin, db.Model):
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        result = check_password_hash(self.password, password)
+        print(f"Checking password for user {self.name}. Result: {result}")  # Debug: Print password check result
+        return result
 
 
 class Matches(db.Model):

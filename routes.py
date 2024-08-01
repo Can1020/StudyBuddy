@@ -1,3 +1,4 @@
+from abc import update_abstractmethods
 from flask_socketio import emit, join_room, leave_room
 from app import db, login_manager, app, socketio, mail, Flask_Message
 from flask_login import (
@@ -7,7 +8,7 @@ from flask_login import (
     current_user,
 )
 from flask import redirect, url_for, render_template, flash, jsonify, request
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -34,17 +35,22 @@ def logout():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("welcome"))
+    
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
         password = form.password.data
         user = db.session.scalar(sa.select(User).where(User.email == email))
-        print(user)
+
         if user:
+            print(f"User found: {user.name} - {user.email}")  # Debug: Print user details
             is_password_correct = user.check_password(password)
+            print(f"Password correct: {is_password_correct}")  # Debug: Print password verification result
+            
             if is_password_correct:
                 login_user(user)
                 return redirect(url_for("welcome"))
+            
             if user.email != email:
                 flash("Invalid email")
                 return redirect(url_for("login"))
@@ -54,8 +60,8 @@ def login():
             else:
                 flash("Invalid email or password")
                 return redirect(url_for("login"))
+            
     return render_template("login.html", form=form)
-
 
 @app.route('/welcome')
 @login_required
@@ -122,24 +128,36 @@ def reset_password(token):
     s = get_serializer()
     try:
         email = s.loads(token, salt="email-confirm", max_age=3600)
-    except:
+    except Exception as e:
+        print(f"Token loading failed: {e}")
         flash("The reset link is invalid or has expired", "danger")
         return redirect(url_for("forgot_password"))
 
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256")
+        print (f"Hashed password: {hashed_password}") #Debug: Print the hashed password 
+
         session = Session(db.engine)
         stmt = select(User).where(User.email == email)
         user = session.execute(stmt).scalar_one_or_none()
         if user:
+            print(f"User found: {user.name} - {user.email}") #Debug: Print the user details
             user.password = hashed_password
             db.session.commit()
+
+            updated_user = db.session.scalar(sa.select(User).where(User.email == email))
+            print(f"Updated password in DB: {updated_user.password}") #Debug: Print the updated password
+
             db.session.execute(sa.delete(PasswordReset).where(PasswordReset.email == email))
+
             db.session.commit()
 
             flash("Your password has been updated!", "success")
             return redirect(url_for("login"))
+
+        else:
+            print(f"User not found")
     return render_template("reset_password.html", form=form)
 
 @app.route("/register", methods=["GET", "POST"])
