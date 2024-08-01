@@ -1,6 +1,5 @@
 from flask_socketio import emit, join_room, leave_room
-from app import socketio
-from app import db, login_manager, app
+from app import db, login_manager, app, socketio, mail, Flask_Message
 from flask_login import (
     login_user,
     login_required,
@@ -8,11 +7,12 @@ from flask_login import (
     current_user,
 )
 from flask import redirect, url_for, render_template, flash, jsonify, request
-from flask_mail import Message, Mail
 from werkzeug.security import generate_password_hash
 from datetime import datetime, timedelta
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 import random
 from models import User, Matches, Likes, PasswordReset
 from forms import LoginForm, ForgotPasswordForm, RegistrationForm, ResetPasswordForm
@@ -24,13 +24,11 @@ from flask import jsonify
 def load_user(user_id):
     return db.session.get(User, int(user_id))
 
-
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("login"))
-
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -93,7 +91,9 @@ def forgot_password():
     form = ForgotPasswordForm()
     if form.validate_on_submit():
         email = form.email.data
-        user = db.session.scalar(sa.select(User).where(User.email == email))
+        session = Session(db.engine)
+        stmt = select(User).where(User.email == email)
+        user = session.execute(stmt).scalar_one_or_none()
         if user:
             s = get_serializer()
             token = s.dumps(email, salt="email-confirm")
@@ -102,15 +102,14 @@ def forgot_password():
             db.session.add(password_reset)
             db.session.commit()
 
-            msg = Message(
+            msg = Flask_Message(
                 "Password Reset Request",
                 sender=app.config['MAIL_DEFAULT_SENDER'],
                 recipients=[email]
             )
-            Mail.send(msg)
             link = url_for("reset_password", token=token, _external=True)
             msg.body = f"Your password reset link is {link}"
-            Mail.send(msg)
+            mail.send(msg)
 
             flash("Check your email for the instructions to reset your password", "info")
         else:
@@ -121,9 +120,6 @@ def forgot_password():
 @app.route("/reset_password/<token>", methods=["GET", "POST"])
 def reset_password(token):
     s = get_serializer()
-    if not s.loads(token, salt="email-confirm", max_age=3600):
-        flash("The reset link is invalid or has expired", "danger")
-        return redirect(url_for("forgot_password"))
     try:
         email = s.loads(token, salt="email-confirm", max_age=3600)
     except:
@@ -133,7 +129,9 @@ def reset_password(token):
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256")
-        user = db.session.scalar(sa.select(User).where(User.email == email))
+        session = Session(db.engine)
+        stmt = select(User).where(User.email == email)
+        user = session.execute(stmt).scalar_one_or_none()
         if user:
             user.password = hashed_password
             db.session.commit()
@@ -143,7 +141,6 @@ def reset_password(token):
             flash("Your password has been updated!", "success")
             return redirect(url_for("login"))
     return render_template("reset_password.html", form=form)
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -255,7 +252,3 @@ def handle_join(data):
 def handle_leave(data):
     room = data['room']
     leave_room(room)
-
-@app.route("/emoji_button", methods=["GET"])
-def EmojiButton():
-        return jsonify({"emoji": "👍"})

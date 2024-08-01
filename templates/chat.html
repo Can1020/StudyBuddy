@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - StudyBuddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.css">
@@ -28,7 +28,6 @@
 </div>
         <div class="chat-input">
             <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="emoji-btn">🙂</button>
             <button id="send-btn">Send</button>
         </div>
     </div>
@@ -51,14 +50,6 @@
                 const message = $('#message-input').val();
                 socket.emit('send_message', {'room': room, 'message': message, 'username': username});
                 $('#message-input').val('');
-            });
-            const picker = new EmojiButton();
-            picker.on('emoji-btn', emoji => {
-                document.querySelector('#message-input').value += emoji;
-            });
-
-            document.querySelector('#emoji-btn').addEventListener('click', () => {
-                picker.togglePicker(document.querySelector('#emoji-btn'));
             });
         });
     </script>

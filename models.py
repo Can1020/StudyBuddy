@@ -1,8 +1,9 @@
 from flask_login import UserMixin
 from app import db
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from datetime import datetime
 
 
 class User(UserMixin, db.Model):
@@ -27,7 +28,7 @@ class User(UserMixin, db.Model):
         self.semester = semester
         self.skills = skills
         self.email = email
-        self.password = password
+        self.password = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -50,7 +51,7 @@ class PasswordReset(db.Model):
     id = so.mapped_column(sa.Integer, primary_key=True)
     email = so.mapped_column(sa.String)
     token = so.mapped_column(sa.String)
-    expires_at = so.mapped_column(sa.DateTime)
+    expires_at = so.mapped_column(sa.DateTime, nullable=False)
 
 class Message(db.Model):
     __tablename__ = "messages"
