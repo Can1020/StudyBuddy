@@ -33,7 +33,7 @@ Diese Situation führte dazu, dass ich oft das Gefühl hatte, hinterherzuhängen
 Für zukünftige Projekte wünsche ich mir, eine gründlichere Planungsphase durchzuführen und sicherzustellen, dass alle Teammitglieder ein solides Verständnis der verwendeten Technologien haben, bevor die Implementierung beginnt. Regelmäßige Team-Meetings zu Beginn des Projekts könnten helfen, die Lernkurve zu verkürzen. Zudem sollte ein klar strukturierter Zeitplan mit definierten Meilensteinen erstellt werden, um den Fortschritt kontinuierlich zu überwachen und sicherzustellen, dass wir im Zeitrahmen bleiben.
 
 {: .label }
-[Dzhan Nezhdet]
+Dzhan Nezhdet
 
 ## [Dzhan Nezhdet] - 2. Review
 
