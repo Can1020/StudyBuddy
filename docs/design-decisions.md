@@ -276,4 +276,3 @@ Nachteile:
 * Zusätzliche Kosten für die Nutzung des Dienstes.
 * Abhängigkeit von einem externen Dienstleister.
 * Komplexere API-Integration im Vergleich zu Flask-Mail.
----

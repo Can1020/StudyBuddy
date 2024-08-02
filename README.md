@@ -40,6 +40,15 @@ StudyBuddy is an innovative app that aims to facilitate networking among student
 - HTML
 - CSS
 
+## Login Credentials 
+- The login details for the account ‘Dzhan Nezhdet’ are:
+  Email: s_nezhdet22@stud.hwr-berlin.de
+  Password: 123456789
+
+- The login details for the account ‘Kadir Aksoy’ are 
+  Email: s_aksoy22@stud.hwr-berlin.de
+  Password: 23456789
+  
 ## Features
 - Login with university email.
 - Register with university email and password.

@@ -28,11 +28,11 @@ Updated
 
 ### Goal
 
-[Das Ziel der StudyBuddy-WebApp ist es, die Vernetzung unter Studenten zu erleichtern und eine unterstützende Gemeinschaft für akademische Zusammenarbeit zu schaffen. Die App soll speziell den Bedürfnissen von introvertierten und neu eingeschriebenen Studenten gerecht werden und ihnen helfen, Lernpartner zu finden und gemeinsam ihre Lernziele zu erreichen.]
+Das Ziel der StudyBuddy-WebApp ist es, die Vernetzung unter Studenten zu erleichtern und eine unterstützende Gemeinschaft für akademische Zusammenarbeit zu schaffen. Die App soll speziell den Bedürfnissen von introvertierten und neu eingeschriebenen Studenten gerecht werden und ihnen helfen, Lernpartner zu finden und gemeinsam ihre Lernziele zu erreichen.
 
 ### Method
 
-[Um dieses Ziel zu erreichen, werden folgende Methoden und Technologien eingesetzt: 
+Um dieses Ziel zu erreichen, werden folgende Methoden und Technologien eingesetzt: 
 
  1. Technologie-Stack:
 
@@ -46,22 +46,21 @@ Updated
     * Anmeldung mit Uni-E-Mail: Benutzer registrieren sich mit ihrer universitären E-Mail-Adresse, um die Authentizität und Zugehörigkeit zu gewährleisten.
     * Profilgestaltung: Benutzer erstellen ein Profil mit Informationen zu ihrem Studiengang, Interessen und Fähigkeiten.
     * Vernetzung und Matching: Das Matching wird durch die zufällige Einblendung der Benutzer realisiert.
-    * Chat-Funktion: Ermöglicht die Kommunikation zwischen gematchten Benutzern zur Besprechung von Lernzielen.]
+    * Chat-Funktion: Ermöglicht die Kommunikation zwischen gematchten Benutzern zur Besprechung von Lernzielen.
 
 ### Results
 
-[Die erwarteten Ergebnisse der Implementierung dieser Funktionen sind:
+Die erwarteten Ergebnisse der Implementierung dieser Funktionen sind:
 
 * Verbesserte Vernetzung: Studenten können einfach und effizient Lernpartner finden.
 * Unterstützende Gemeinschaft: Durch die Plattform entsteht eine Gemeinschaft, die den Lernprozess erleichtert und den akademischen Erfolg fördert.
-* Erhöhte Benutzerzufriedenheit: Spezialisierte Funktionen, die auf die Bedürfnisse von Studenten zugeschnitten sind, erhöhen die Zufriedenheit und Nutzung der App.]
+* Erhöhte Benutzerzufriedenheit: Spezialisierte Funktionen, die auf die Bedürfnisse von Studenten zugeschnitten sind, erhöhen die Zufriedenheit und Nutzung der App.
 
 ### Implications
 
-[Die erfolgreiche Umsetzung der StudyBuddy-WebApp hat folgende Implikationen:
+Die erfolgreiche Umsetzung der StudyBuddy-WebApp hat folgende Implikationen:
 
 * Akademischer Erfolg: Durch die Unterstützung und Zusammenarbeit innerhalb der Plattform können Studenten ihre Lernziele effektiver erreichen.
 * Langfristige Beziehungen: Die App fördert die Bildung von langfristigen akademischen und sozialen Beziehungen, die über das Studium hinausgehen.
 * Einfluss auf die Hochschulbildung: StudyBuddy kann als Modell für andere Bildungsinstitutionen dienen, um die Vernetzung und Zusammenarbeit unter Studenten zu fördern.
-* Erweiterungspotenzial: Bei Erfolg der App besteht die Möglichkeit, weitere Funktionen hinzuzufügen und die Plattform für andere Bildungseinrichtungen oder sogar berufliche Netzwerke zu erweitern.]
----
+* Erweiterungspotenzial: Bei Erfolg der App besteht die Möglichkeit, weitere Funktionen hinzuzufügen und die Plattform für andere Bildungseinrichtungen oder sogar berufliche Netzwerke zu erweitern.

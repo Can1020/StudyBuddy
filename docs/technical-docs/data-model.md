@@ -20,6 +20,7 @@ nav_order: 2
 ## StudyBuddy Datenmodell-Datenstruktur
 
 ```mermaid
+
 classDiagram
     class FlaskApp {
         - app: Flask
@@ -111,3 +112,5 @@ classDiagram
     RegistrationForm <|-- LoginForm
     RegistrationForm <|-- ForgotPasswordForm
     RegistrationForm <|-- ResetPasswordForm
+
+```
