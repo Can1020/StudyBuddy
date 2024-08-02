@@ -50,7 +50,6 @@ def login():
             if is_password_correct:
                 login_user(user)
                 return redirect(url_for("welcome"))
-            
             if user.email != email:
                 flash("Invalid email")
                 return redirect(url_for("login"))
@@ -135,7 +134,7 @@ def reset_password(token):
 
     form = ResetPasswordForm()
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256")
+        hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256:600000")
         print (f"Hashed password: {hashed_password}") #Debug: Print the hashed password 
 
         session = Session(db.engine)
@@ -164,7 +163,7 @@ def reset_password(token):
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256")
+        hashed_password = generate_password_hash(form.password.data, method="pbkdf2:sha256:600000")
         new_user = User(
             name=form.name.data,
             age=int(form.age.data),

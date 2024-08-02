@@ -35,7 +35,6 @@ class User(UserMixin, db.Model):
         print(f"Checking password for user {self.name}. Result: {result}")  # Debug: Print password check result
         return result
 
-
 class Matches(db.Model):
     __tablename__ = "matches"
     id = so.mapped_column(sa.Integer, primary_key=True)
