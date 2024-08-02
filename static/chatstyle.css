@@ -6,18 +6,19 @@ body {
 }
 
 .sidebar {
-    width: 270px;
+    width: 330px;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 20px 0 0 20px;
     border-right: 1px solid #ddd;
+    
 }
 
 .logo {
     color: #1149A0;
-    width: 250px;
+    width: 300px;
     margin-bottom: 30px;
 }
 

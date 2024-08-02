@@ -1,0 +1,157 @@
+body {
+    font-family: 'SF Pro', sans-serif;
+    background: #FFFFFF;
+    margin: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 330px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 0 0 20px;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+
+}
+
+.logo {
+    color: #1149A0;
+    width: 300px;
+    margin-bottom: 30px;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.nav-links li {
+    margin: 25px 0;
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #1149A0;
+}
+
+.nav-icon-sb {
+    width: 25x;
+    height: 27px;
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.nav-icon-m {
+    width: 31x;
+    height: 34px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.nav-icon-l {
+    width: 32x;
+    height: 34px;
+    margin-right: 30px;
+    flex-shrink: 0;
+}
+.match-container {
+    flex: 1;
+    padding: 40px;
+}
+
+.match-header {
+    font-size: 36px;
+    font-weight: bold;
+    color: #1149A0;
+    margin-bottom: 40px;
+    text-align: center;
+}
+.matches {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.match-card {
+    background: #F0F7FF;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 60%;
+    max-width: 600px;
+}
+
+.match-card .user-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+   
+}
+
+.match-card .user-info p {
+    margin: 10px 15px;
+    font-size: 18px;
+    color: #333;
+    align-items: center;   
+}
+
+.match-card .user-info p i-u{
+    margin-right: 10px;
+}
+
+.match-card .user-info p i-g{
+    margin-right: 6px;
+}
+
+.match-card .chat-now {
+    background-color: #E1F0FF;
+    border: none;
+    border-radius: 50%;
+    color: #1149A0;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-left: 20px;
+}
+
+.match-card .chat-now:hover {
+    background-color: #1149A0;
+    color: white;
+}
+
+.match-card .chat-now:focus {
+    outline: none;
+}
+
+.match-card .chat-now i {
+    margin-right: 8px;
+}
