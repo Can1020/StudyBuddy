@@ -9,14 +9,24 @@
 </head>
 <body>
     <div class="sidebar">
-        <h1 class="logo">StudyBuddy</h1>
+        <img src="{{ url_for('static', filename='StudyBuddy Logo.jpg') }}" alt="StudyBuddy Logo" class="logo">
         <nav>
             <ul class="nav-links">
-                <li><a href="{{ url_for('matches')}}" class="nav-item">Messages</a></li>
-                <li><a href="{{ url_for('logout') }}" class="nav-item">Logout</a></li>
-            </ul>
-        </nav>
-    </div>
+                <li><a href="{{ url_for('welcome') }}" class = "active">
+                <img src="{{ url_for('static', filename='home_icon_active.png') }}" alt="Home" class="nav-icon-sb">
+                Home
+            </a></li>
+            <li><a href="{{ url_for('matches')}}"> 
+                <img src="{{ url_for('static', filename='messages_icon_not_active.png') }}" alt="Messages Icon" class="nav-icon-m">
+                Messages 
+            </a></li>
+            <li><a href="{{ url_for('logout') }}" >
+                <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout Icon" class="nav-icon-l">
+                Logout
+            </a></li>
+        </ul>
+     </nav>
+</div>
     <div class="home-container">
         <div class="users">
             {% for user in users %}

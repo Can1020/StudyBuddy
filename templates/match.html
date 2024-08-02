@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matches - StudyBuddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='welcomestyle.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatstyle.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
 </head>
+
 <body>
     <div class="navbar">
         <ul>
@@ -25,4 +29,5 @@
         {% endfor %}
     </div>
 </body>
+
 </html>

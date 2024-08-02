@@ -1,57 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - StudyBuddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatstyle.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-       <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
 </head>
+
 <body>
-    <div class="navbar">
-        <ul>
-            <li><a href="{{ url_for('welcome') }}">Home</a></li>
-            <li><a href="{{ url_for('matches') }}">Messages</a></li>
-        </ul>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>StudyBuddy</h3>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('welcome') }}">Home</a></li>
+                <li><a href="{{ url_for('matches') }}" class="active">Messages</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-content">
+            {% for chat in chats %}
+            <div class="chat-preview {{ 'active' if chat.id == current_chat.id else '' }}">
+                <h4>{{ chat.user.name }}</h4>
+                <p>{{ chat.last_message }}</p>
+                <time>{{ chat.timestamp }}</time>
+            </div>
+            {% endfor %}
+        </div>
     </div>
     <div class="chat-container">
         <div class="chat-header">
             <h2>Chat with {{ match_username }}</h2>
         </div>
-        <div class="chat-box" id="chat-box">
-    {% for message in messages %}
-        <div><strong>{{ message.user.name }}:</strong> {{ message.message }}</div>
-    {% endfor %}
-</div>
+        <div class="message-list" id="message-list">
+            {% for message in messages %}
+            <div class="message-item {{ 'user' if message.user_id == current_user.id else 'other' }}">
+                <strong>{{ message.user.name }}</strong>
+                <span>{{ message.message }}</span>
+                <time>{{ message.timestamp }}</time>
+            </div>
+            {% endfor %}
+        </div>
         <div class="chat-input">
             <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="send-btn">Send</button>
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const socket = io.connect('http://' + document.domain + ':' + location.port);
             const room = '{{ room }}';
             const username = '{{ username }}';
 
-            socket.on('connect', function() {
-                socket.emit('join', {'room': room, 'username': username});
+            socket.on('connect', function () {
+                socket.emit('join', { 'room': room, 'username': username });
             });
 
-            socket.on('receive_message', function(data) {
-                $('#chat-box').append('<div><strong>' + data.username + ':</strong> ' + data.message + '</div>');
+            socket.on('receive_message', function (data) {
+                $('#message-list').append('<div class="message-item ' + (data.user_id == '{{ current_user.id }}' ? 'user' : 'other') + '"><strong>' + data.username + ':</strong> ' + data.message + '<time>' + data.timestamp + '</time></div>');
             });
 
-            $('#send-btn').click(function() {
+            $('#send-btn').click(function () {
                 const message = $('#message-input').val();
-                socket.emit('send_message', {'room': room, 'message': message, 'username': username});
+                socket.emit('send_message', { 'room': room, 'message': message, 'username': username });
                 $('#message-input').val('');
             });
         });
     </script>
 </body>
+
 </html>
