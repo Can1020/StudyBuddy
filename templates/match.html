@@ -8,15 +8,29 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='chatstyle.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    
 </head>
 
 <body>
-    <div class="navbar">
-        <ul>
-            <li><a href="{{ url_for('welcome') }}">Home</a></li>
-            <li><a href="{{ url_for('matches')}}">Messages</a></li>
+     <div class="sidebar">
+       <img src="{{ url_for('static', filename='StudyBuddy Logo.jpg') }}" alt="StudyBuddy Logo" class="logo">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('welcome') }}" >
+                <img src="{{ url_for('static', filename='home_icon_not_active.png') }}" alt="Home" class="nav-icon-sb">
+                Home
+            </a></li>
+            <li><a href="{{ url_for('matches')}}" class = "active"> 
+                <img src="{{ url_for('static', filename='messages_icon_active.png') }}" alt="Messages Icon" class="nav-icon-m">
+                Messages 
+            </a></li>
+            <li><a href="{{ url_for('logout') }}" >
+                <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout Icon" class="nav-icon-l">
+                Logout
+            </a></li>
         </ul>
-    </div>
+     </nav>
+</div>
     <div class="match-container">
         <h2>Your Matches</h2>
         {% for match in matches %}
@@ -29,5 +43,5 @@
         {% endfor %}
     </div>
 </body>
-
 </html>
+

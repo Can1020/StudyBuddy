@@ -7,32 +7,29 @@
     <title>Chat - StudyBuddy</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='chatstyle.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
 </head>
 
 <body>
     <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>StudyBuddy</h3>
-        </div>
-        <nav class="nav-links">
-            <ul>
-                <li><a href="{{ url_for('welcome') }}">Home</a></li>
-                <li><a href="{{ url_for('matches') }}" class="active">Messages</a></li>
-            </ul>
-        </nav>
-        <div class="sidebar-content">
-            {% for chat in chats %}
-            <div class="chat-preview {{ 'active' if chat.id == current_chat.id else '' }}">
-                <h4>{{ chat.user.name }}</h4>
-                <p>{{ chat.last_message }}</p>
-                <time>{{ chat.timestamp }}</time>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+       <img src="{{ url_for('static', filename='StudyBuddy Logo.jpg') }}" alt="StudyBuddy Logo" class="logo">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('welcome') }}" >
+                <img src="{{ url_for('static', filename='home_icon_not_active.png') }}" alt="Home" class="nav-icon-sb">
+                Home
+            </a></li>
+            <li><a href="{{ url_for('matches')}}" class = "active"> 
+                <img src="{{ url_for('static', filename='messages_icon_active.png') }}" alt="Messages Icon" class="nav-icon-m">
+                Messages 
+            </a></li>
+            <li><a href="{{ url_for('logout') }}" >
+                <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout Icon" class="nav-icon-l">
+                Logout
+            </a></li>
+        </ul>
+     </nav>
+</div>
     <div class="chat-container">
         <div class="chat-header">
             <h2>Chat with {{ match_username }}</h2>
@@ -48,7 +45,9 @@
         </div>
         <div class="chat-input">
             <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+            <button id="send-btn"><i class="send-icon">
+            <img src="{{ url_for('static', filename='send_icon.png') }}" alt="Send Button Icon" class="send-icon">
+            </i></button>
         </div>
     </div>
 
