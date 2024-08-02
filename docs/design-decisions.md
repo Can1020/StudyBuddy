@@ -4,7 +4,7 @@ nav_order: 3
 ---
 
 {: .label }
-[Kadir Aksoy]
+Dzhan Nezhdet
 
 {: .no_toc }
 # Design decisions

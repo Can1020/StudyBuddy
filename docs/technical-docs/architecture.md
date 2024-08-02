@@ -5,7 +5,7 @@ nav_order: 1
 ---
 
 {: .label }
-[Kadir Aksoy]
+Kadir Aksoy
 
 
 # Architecture

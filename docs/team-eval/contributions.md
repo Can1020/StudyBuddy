@@ -5,7 +5,7 @@ nav_order: 4
 ---
 
 {: .label }
-[Dzhan Nezhdet, Kadir Aksoy]
+Dzhan Nezhdet, Kadir Aksoy
 
 {: .no_toc }
 # Summary of individual contributions

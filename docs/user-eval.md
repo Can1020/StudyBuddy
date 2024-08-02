@@ -4,7 +4,7 @@ nav_order: 4
 ---
 
 {: .label }
-[Kadir Aksoy]
+Kadir Aksoy
 
 {: .no_toc }
 # User evaluation

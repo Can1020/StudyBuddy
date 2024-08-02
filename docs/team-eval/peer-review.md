@@ -16,7 +16,7 @@ nav_order: 3
 </details>
 
 {: .label }
-[Kadir Aksoy]
+Kadir Aksoy
 
 ## [Kadir Aksoy] - 1. Review
 

@@ -4,7 +4,7 @@ nav_order: 1
 ---
 
 {: .label }
-[Dzhan Nezhdet, Kadir Aksoy]
+Dzhan Nezhdet, Kadir Aksoy
 
 {: .no_toc }
 # Value proposition

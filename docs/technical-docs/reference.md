@@ -5,7 +5,7 @@ nav_order: 3
 ---
 
 {: .label }
-[Dzhan Nezhdet]
+Dzhan Nezhdet
 
 {: .no_toc }
 # Reference documentation
