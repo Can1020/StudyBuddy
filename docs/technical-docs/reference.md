@@ -5,17 +5,10 @@ nav_order: 3
 ---
 
 {: .label }
-[Jane Dane]
+[Dzhan Nezhdet]
 
 {: .no_toc }
 # Reference documentation
-
-{: .attention }
-> This page collects internal functions, routes with their functions, and APIs (if any).
-> 
-> See [Uber](https://developer.uber.com/docs/drivers/references/api) or [PayPal](https://developer.paypal.com/api/rest/) for exemplary high-quality API reference documentation.
->
-> You may delete this `attention` box.
 
 <details open markdown="block">
 {: .text-delta }
@@ -24,62 +17,167 @@ nav_order: 3
 {: toc }
 </details>
 
-## [Section / module]
+## Benutzerverwaltung
 
-### `function_definition()`
+### `load_user(user_id)`
 
-**Route:** `/route/`
+**Route:** `/`
 
-**Methods:** `POST` `GET` `PATCH` `PUT` `DELETE`
+**Methoden:** `GET` `POST`
 
-**Purpose:** [Short explanation of what the function does and why]
+**Zweck:** Lädt den Benutzer anhand der Benutzer-ID, um den aktuellen Benutzer für die Sitzung zu setzen.
 
-**Sample output:**
-
-[Show an image, string output, or similar illustration -- or write NONE if function generates no output]
+**Beispielausgabe:** `User object`
 
 ---
 
-## [Example, delete this section] Show to-do lists
+### `logout()`
 
-### `get_lists()`
+**Route:** `/logout`
 
-**Route:** `/lists/`
+**Methoden:** `GET`
 
-**Methods:** `GET`
+**Zweck:** Loggt den aktuellen Benutzer aus und leitet zur Login-Seite weiter.
 
-**Purpose:** Show all to-do lists.
+**Beispielausgabe:** ![`Redirect to /login`](../assets/images/redirect_to_login.png)
 
-**Sample output:**
-
-![get_lists() sample](../assets/images/fswd-intro_00.png)
 
 ---
 
-### `get_list_todos(list_id)`
+### `login()`
 
-**Route:** `/lists/<int:list_id>`
+**Route:** `/`
 
-**Methods:** `GET`
+**Methoden:** `GET` `POST`
 
-**Purpose:** Retrieve all to-do items of to-do list with ID `list_id` from database and present to user.
+**Zweck:** Authentifiziert den Benutzer und loggt ihn ein, wenn die Anmeldeinformationen korrekt sind.
 
-**Sample output:**
-
-![get_list_todos() sample](../assets/images/fswd-intro_02.png)
+**Beispielausgabe:** `Redirect to /welcome`
 
 ---
 
-## [Example, delete this section] Insert sample data
+### `welcome()`
 
-### `run_insert_sample()`
+**Route:** `/welcome`
 
-**Route:** `/insert/sample`
+**Methoden:** `GET`
 
-**Methods:** `GET`
+**Zweck:** Zeigt eine Begrüßungsseite mit einer Liste von Benutzern und möglichen Übereinstimmungen an.
 
-**Purpose:** Flush the database and insert sample data set
+**Beispielausgabe:** ![`/welcome`](../assets/images/welcome.png)
 
-**Sample output:**
+---
 
-Browser shows: `Database flushed and populated with some sample data.`
+### `forgot_password()`
+
+**Route:** `/forgot_password`
+
+**Methoden:** `GET` `POST`
+
+**Zweck:** Sendet einen Link zum Zurücksetzen des Passworts an die E-Mail des Benutzers, wenn diese existiert.
+
+**Beispielausgabe:** ![`/forgot_password`](../assets/images/forgot_password.png)
+
+---
+
+### `reset_password(token)`
+
+**Route:** `/reset_password/<token>`
+
+**Methoden:** `GET` `POST`
+
+**Zweck:** Ermöglicht dem Benutzer das Zurücksetzen des Passworts, wenn ein gültiger Token bereitgestellt wird.
+
+**Beispielausgabe:** ![`/reset_password`](../assets/images/reset_password.png)
+
+---
+
+### `register()`
+
+**Route:** `/register`
+
+**Methoden:** `GET` `POST`
+
+**Zweck:** Registriert einen neuen Benutzer und speichert die Informationen in der Datenbank.
+
+**Beispielausgabe:** ![`/register`](../assets/images/register.png) --> `Redirect to /login`
+
+---
+
+### `like_user()`
+
+**Route:** `/like`
+
+**Methoden:** `POST`
+
+**Zweck:** Markiert einen Benutzer als "geliked" und erstellt eine Übereinstimmung, wenn der andere Benutzer ebenfalls "geliked" hat.
+
+**Beispielausgabe:** `Adding user_id and liked_user_id into Database`
+
+---
+
+### `dislike_user(user_id)`
+
+**Route:** `/dislike/<int:user_id>`
+
+**Methoden:** `POST`
+
+**Zweck:** Markiert einen Benutzer als "nicht geliked" und leitet zur Begrüßungsseite weiter.
+
+**Beispielausgabe:** `Redirect to /welcome`
+
+---
+
+### `matches()`
+
+**Route:** `/matches`
+
+**Methoden:** `GET`
+
+**Zweck:** Zeigt eine Liste der Übereinstimmungen des aktuellen Benutzers an.
+
+**Beispielausgabe:** ![`/matches`](../assets/images/your_matches.png)
+
+---
+
+### `chat(match_id)`
+
+**Route:** `/chat/<int:match_id>`
+
+**Methoden:** `GET`
+
+**Zweck:** Zeigt den Chat mit einem Übereinstimmungsbenutzer an.
+
+**Beispielausgabe:** ![`/chat`](../assets/images/chat.png)
+
+---
+
+### `handle_send_message(data)`
+
+**SocketIO-Event:** `send_message`
+
+**Zweck:** Handhabt das Senden einer Nachricht im Chat und speichert sie in der Datenbank.
+
+**Beispielausgabe:** `Emit receive_message Event`
+
+---
+
+### `handle_join(data)`
+
+**SocketIO-Event:** `join`
+
+**Zweck:** Fügt den Benutzer einem Chatraum hinzu.
+
+**Beispielausgabe:** `None`
+
+---
+
+### `handle_leave(data)`
+
+**SocketIO-Event:** `leave`
+
+**Zweck:** Entfernt den Benutzer aus einem Chatraum.
+
+**Beispielausgabe:** `None`
+
+---

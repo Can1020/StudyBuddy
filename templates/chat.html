@@ -1,65 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - StudyBuddy</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatstyle.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.3/dist/emoji-button.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.3/dist/emoji-button.min.css">
 </head>
+
 <body>
-    <div class="navbar">
-        <ul>
-            <li><a href="{{ url_for('welcome') }}">Home</a></li>
-            <li><a href="#">Search</a></li>
-            <li><a href="{{ url_for('chats') }}">Messages</a></li>
-            <li><a href="#">Profile</a></li>
+    <div class="sidebar">
+       <img src="{{ url_for('static', filename='StudyBuddy Logo.jpg') }}" alt="StudyBuddy Logo" class="logo">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('welcome') }}" >
+                <img src="{{ url_for('static', filename='home_icon_not_active.png') }}" alt="Home" class="nav-icon-sb">
+                Home
+            </a></li>
+            <li><a href="{{ url_for('matches')}}" class = "active"> 
+                <img src="{{ url_for('static', filename='messages_icon_active.png') }}" alt="Messages Icon" class="nav-icon-m">
+                Messages 
+            </a></li>
+            <li><a href="{{ url_for('logout') }}" >
+                <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout Icon" class="nav-icon-l">
+                Logout
+            </a></li>
         </ul>
-    </div>
+     </nav>
+</div>
     <div class="chat-container">
         <div class="chat-header">
             <h2>Chat with {{ match_username }}</h2>
         </div>
-        <div class="chat-box" id="chat-box"></div>
+        <div class="message-list" id="message-list">
+            {% for message in messages %}
+            <div class="message-item {{ 'user' if message.user_id == current_user.id else 'other' }}">
+                <strong>{{ message.user.name }}</strong>
+                <span>{{ message.message }}</span>
+                <time>{{ message.timestamp }}</time>
+            </div>
+            {% endfor %}
+        </div>
         <div class="chat-input">
             <input type="text" id="message-input" placeholder="Type a message...">
-            <button id="emoji-btn">🙂</button>
-            <button id="send-btn">Send</button>
+            <button id="send-btn"><i class="send-icon">
+            <img src="{{ url_for('static', filename='send_icon.png') }}" alt="Send Button Icon" class="send-icon">
+            </i></button>
         </div>
     </div>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             const socket = io.connect('http://' + document.domain + ':' + location.port);
             const room = '{{ room }}';
             const username = '{{ username }}';
 
-            socket.on('connect', function() {
-                socket.emit('join', {'room': room, 'username': username});
+            socket.on('connect', function () {
+                socket.emit('join', { 'room': room, 'username': username });
             });
 
-            socket.on('receive_message', function(data) {
-                $('#chat-box').append('<div><strong>' + data.username + ':</strong> ' + data.message + '</div>');
+            socket.on('receive_message', function (data) {
+                $('#message-list').append('<div class="message-item ' + (data.user_id == '{{ current_user.id }}' ? 'user' : 'other') + '"><strong>' + data.username + ':</strong> ' + data.message + '<time>' + data.timestamp + '</time></div>');
             });
 
-            $('#send-btn').click(function() {
+            $('#send-btn').click(function () {
                 const message = $('#message-input').val();
-                socket.emit('send_message', {'room': room, 'message': message, 'username': username});
+                socket.emit('send_message', { 'room': room, 'message': message, 'username': username });
                 $('#message-input').val('');
-            });
-
-            const picker = new EmojiButton();
-            picker.on('emoji', emoji => {
-                document.querySelector('#message-input').value += emoji;
-            });
-
-            document.querySelector('#emoji-btn').addEventListener('click', () => {
-                picker.togglePicker(document.querySelector('#emoji-btn'));
             });
         });
     </script>
 </body>
+
 </html>

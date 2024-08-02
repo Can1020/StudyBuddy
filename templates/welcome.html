@@ -5,85 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyBuddy - Welcome</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='welcomescreenstyle.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <div class="navbar">
-        <h1 class="logo">StudyBuddy</h1>
+    <div class="sidebar">
+        <img src="{{ url_for('static', filename='StudyBuddy Logo.jpg') }}" alt="StudyBuddy Logo" class="logo">
         <nav>
             <ul class="nav-links">
-                <li><a href="#">Search</a></li>
-                <li><a href="{{ url_for('chats')}}">Messages</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="container">
-<h2>Welcome, {{ current_user.name }}</h2>
+                <li><a href="{{ url_for('welcome') }}" class = "active">
+                <img src="{{ url_for('static', filename='home_icon_active.png') }}" alt="Home" class="nav-icon-sb">
+                Home
+            </a></li>
+            <li><a href="{{ url_for('matches')}}"> 
+                <img src="{{ url_for('static', filename='messages_icon_not_active.png') }}" alt="Messages Icon" class="nav-icon-m">
+                Messages 
+            </a></li>
+            <li><a href="{{ url_for('logout') }}" >
+                <img src="{{ url_for('static', filename='logout_icon.png') }}" alt="Logout Icon" class="nav-icon-l">
+                Logout
+            </a></li>
+        </ul>
+     </nav>
+</div>
+    <div class="home-container">
         <div class="users">
             {% for user in users %}
             <div class="user-card" data-user-id="{{ user.id }}">
-                <h2>{{ user.name }} <span>{{ user.age }}</span></h2>
-                <p><i class="fas fa-university"></i> {{ user.university }}</p>
-                <p><i class="fas fa-map-marker-alt"></i> Lives in {{ user.location }}</p>
-                <p><i class="fas fa-graduation-cap"></i> {{ user.course_of_study }} - {{ user.semester }}. Semester</p>
-                <p><i class="fas fa-star"></i> {{ user.skills }}</p>
+                <div class="user-info">
+                    <div class="name-age">
+                        <h2>{{ user.name }}</h2>
+                        <span>{{ user.age }}</span>
+                    </div>
+                    <p><i class="fas fa-university"></i> {{ user.university }}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Lives in {{ user.location }}</p>
+                    <p><i class="fas fa-graduation-cap"></i> {{ user.course_of_study }} - {{ user.semester }}. Semester</p>
+                    <p><i class="fas fa-star"></i> {{ user.skills }}</p>
+                </div>
                 <div class="actions">
-                    <button class="like-btn">✓</button>
-                    <button class="dislike-btn">X</button>
+                    <button class="like-btn"><i class="fas fa-check"></i></button>
+                    <button class="dislike-btn"><i class="fas fa-times"></i></button>
                 </div>
             </div>
             {% endfor %}
         </div>
-        <div id="match-notification" class="hidden">
-            <p>You have a new match!</p>
-            <button id="chat-now-btn">Say Hi to match_username </button>
-            <button id="close-notification-btn">Dismiss</button>
-        </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.like-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const userId = this.closest('.user-card').getAttribute('data-user-id');
-                        fetch('/like', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ liked_user_id: userId })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.match) {
-                                document.getElementById('match-notification').classList.remove('hidden');
-                                document.getElementById('match-username').innerText = data.match_username;
-                                // Redirect to the chat screen or show the match notification
-                            } else {
-                                // Remove the liked user card
-                                this.closest('.user-card').remove();
-                            }
-                        });
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.like-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const userId = this.closest('.user-card').getAttribute('data-user-id');
+                    fetch('/like', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ liked_user_id: userId })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.match) {
+                            alert('You have a new match!');
+                        } else {
+                            this.closest('.user-card').remove();
+                        }
                     });
                 });
-    
-                document.querySelectorAll('.dislike-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        // Remove the disliked user card
-                        this.closest('.user-card').remove();
-                    });
-                });
-                document.getElementById('chat-now-btn').addEventListener('click', function() {
-                    const matchId = sessionStorage.getItem('match_id');
-                    if (matchId) {
-                        window.location.href = `/chat/${matchId}`;
-                }
             });
 
-                document.getElementById('close-notification-btn').addEventListener('click', function() {
-                    document.getElementById('match-notification').classList.add('hidden');
+            document.querySelectorAll('.dislike-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.closest('.user-card').remove();
+                });
             });
         });
-        </script>
-    </div>
+    </script>
 </body>
 </html>

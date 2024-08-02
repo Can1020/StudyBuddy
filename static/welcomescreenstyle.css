@@ -3,99 +3,170 @@ body {
     background: #FFFFFF;
     margin: 0;
     display: flex;
+}
+
+.sidebar {
+    width: 330px;
+    background-color: #FFFFFF;
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+    align-items: flex-start;
+    padding: 20px 0 0 20px;
+    border-right: 1px solid #ddd;
 }
 
-.navbar {
-    width: 100%;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.logo {
+    color: #1149A0;
+    width: 300px;
+    margin-bottom: 30px;
 }
 
-.navbar .logo {
-    background-color: #1149A0;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.navbar .nav-links {
+.nav-links {
     list-style: none;
-    display: flex;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
-.navbar .nav-links li {
-    margin-left: 20px;
+.nav-links li {
+    margin: 25px 0;
 }
 
-.navbar .nav-links a {
-    color: white;
+.nav-links a {
+    color: black;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    
 }
 
-.container {
-    width: 80%;
+.nav-links a:hover,
+.nav-links a.active {
+    color: #1149A0;
+}
+
+.nav-icon-sb {
+    width: 25x;
+    height: 27px;
+    margin-right: 14px;
+    flex-shrink: 0;
+}
+
+.nav-icon-m {
+    width: 31x;
+    height: 34px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.nav-icon-l {
+    width: 32x;
+    height: 34px;
+    margin-right: 30px;
+    flex-shrink: 0;
+}
+
+.home-container {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    height: 100vh;
 }
 
 .users {
     display: flex;
     justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 200px;
+    /* Increased gap between user cards */
 }
 
 .user-card {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(17, 73, 160, 1) 3%, rgba(211, 233, 255, 1) 100%);
+    padding: 40px;
+    border-radius: 25px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 200px;
+    width: 401px;
+    /* Narrower width */
+    height: 1100px;
+    /* Adjusted height */
     text-align: left;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.user-card h3 {
-    font-size: 20px;
-    margin: 10px 0;
+.user-card .user-info {
+    margin-bottom: 40px;
+    flex-grow: 1;
 }
 
-.user-card h2 span {
-    font-size: 16px;
-    color: #555;
+.user-card .name-age {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 100px;
+    /* Increased margin for better spacing */
+}
+
+.user-card .name-age h2 {
+    font-size: 43px;
+    /* Increased font size */
+    font-weight: bold;
+    margin: 0;
+}
+
+.user-card .name-age span {
+    font-size: 40px;
+    /* Increased font size */
+    font-weight: 500;
 }
 
 .user-card p {
-    font-size: 14px;
-    margin: 5px 0;
+    font-size: 25px;
+    /* Font size */
+    margin: 60px 0;
+    /* Margin for better spacing */
+    align-items: flex-start;
+
 }
 
-.user-card .actions {
+.user-card p i {
+    margin-right: 15px;
+    flex-shrink: 0;
+    font-size: 30px;
+    margin-top: 3px;
+}
+
+.actions {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 40px;
 }
 
-.user-card .reject{
-    background-color: #ff4d4d;
+.actions button {
+    background-color: rgba(0, 0, 0, 0.1);
     border: none;
-    color: white;
-    padding: 5px 10px;
     border-radius: 50%;
+    color: white;
+    padding: 15px;
+    width: 100px;
+    height: 100px;
     cursor: pointer;
-    margin: 0 5px;
+    font-size: 30px;
 }
 
-.user-card .accept {
-    background-color:#4caf50;
-    color: whitesmoke
+.actions .dislike-btn {
+    background-color: rgba(255, 0, 0, 0.7);
+}
+
+.actions .like-btn {
+    background-color: #238d5b;
+    /* Changed color */
 }
