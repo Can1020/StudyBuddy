@@ -4,7 +4,7 @@ nav_order: 1
 ---
 
 {: .label }
-Dzhan Nezhdet, Kadir Aksoy
+[Dzhan Nezhdet, Kadir Aksoy]
 
 {: .no_toc }
 # Value proposition
@@ -44,4 +44,4 @@ Unsere Zielgruppe sind insbesondere Studenten, die sich neu an einer Hochschule 
 
 ## Customer journey
 
-[Illustrate the customer journey, from the app's entry point to a completed task. You might want to show the customer journey as (schematic) screen flows.]
+![StudyBuddy_sample](assets/images/customer_journey.jpeg)

@@ -4,7 +4,7 @@ nav_order: 4
 ---
 
 {: .label }
-[Jane Dane]
+[Kadir Aksoy]
 
 {: .no_toc }
 # User evaluation
@@ -16,30 +16,52 @@ nav_order: 4
 {: toc }
 </details>
 
-## 01: [Title]
+## 01: [Nutzerfreundlichkeit]
 
 ### Meta
 
 Status
-: **Work in progress** - Done - Obsolete
+: Work in progress - **Done** - Obsolete
 
 Updated
-: DD-MMM-YYYY
+: 02.08.2024
 
 ### Goal
 
-[Describe the goal of this evaluation, for example as a research question like: "How long does it take to register a new account and what is the drop-out rate?"]
+[Das Ziel der StudyBuddy-WebApp ist es, die Vernetzung unter Studenten zu erleichtern und eine unterstützende Gemeinschaft für akademische Zusammenarbeit zu schaffen. Die App soll speziell den Bedürfnissen von introvertierten und neu eingeschriebenen Studenten gerecht werden und ihnen helfen, Lernpartner zu finden und gemeinsam ihre Lernziele zu erreichen.]
 
 ### Method
 
-[Describe how you proceed to achieve your evaluation goal. Be as specific as possible: others should be able to replicate your evaluation by following the description on this section.]
+[Um dieses Ziel zu erreichen, werden folgende Methoden und Technologien eingesetzt: 
+
+ 1. Technologie-Stack:
+
+    * Programmiersprache: Python
+    * Frameworks: Flask für die Backend-Entwicklung, WebSockets von SocketIO für Echtzeitkommunikation
+    * Datenbank: SQLite zur Speicherung der Nutzerdaten
+    * Frontend: HTML und CSS zur Gestaltung der Benutzeroberfläche
+    
+2. Funktionalitäten:
+
+    * Anmeldung mit Uni-E-Mail: Benutzer registrieren sich mit ihrer universitären E-Mail-Adresse, um die Authentizität und Zugehörigkeit zu gewährleisten.
+    * Profilgestaltung: Benutzer erstellen ein Profil mit Informationen zu ihrem Studiengang, Interessen und Fähigkeiten.
+    * Vernetzung und Matching: Das Matching wird durch die zufällige Einblendung der Benutzer realisiert.
+    * Chat-Funktion: Ermöglicht die Kommunikation zwischen gematchten Benutzern zur Besprechung von Lernzielen.]
 
 ### Results
 
-[Present the main results of your evaluation, for example: "On average, users need 3 min to register. The drop-out rate was 70%. Users that didn't complete provided the following reasons: ..."]
+[Die erwarteten Ergebnisse der Implementierung dieser Funktionen sind:
+
+* Verbesserte Vernetzung: Studenten können einfach und effizient Lernpartner finden.
+* Unterstützende Gemeinschaft: Durch die Plattform entsteht eine Gemeinschaft, die den Lernprozess erleichtert und den akademischen Erfolg fördert.
+* Erhöhte Benutzerzufriedenheit: Spezialisierte Funktionen, die auf die Bedürfnisse von Studenten zugeschnitten sind, erhöhen die Zufriedenheit und Nutzung der App.]
 
 ### Implications
 
-[What did you learn from this evaluation and what will you change to improve? Example: "We aim to decrease the drop-out rate by not asking for a birth date. We will re-run this evaluation to measure the impact."]
+[Die erfolgreiche Umsetzung der StudyBuddy-WebApp hat folgende Implikationen:
 
+* Akademischer Erfolg: Durch die Unterstützung und Zusammenarbeit innerhalb der Plattform können Studenten ihre Lernziele effektiver erreichen.
+* Langfristige Beziehungen: Die App fördert die Bildung von langfristigen akademischen und sozialen Beziehungen, die über das Studium hinausgehen.
+* Einfluss auf die Hochschulbildung: StudyBuddy kann als Modell für andere Bildungsinstitutionen dienen, um die Vernetzung und Zusammenarbeit unter Studenten zu fördern.
+* Erweiterungspotenzial: Bei Erfolg der App besteht die Möglichkeit, weitere Funktionen hinzuzufügen und die Plattform für andere Bildungseinrichtungen oder sogar berufliche Netzwerke zu erweitern.]
 ---

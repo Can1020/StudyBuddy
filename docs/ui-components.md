@@ -3,8 +3,8 @@ title: UI Components
 nav_order: 4
 ---
 
-{: .label .label-red }
-[to be deleted]
+{: .label }
+[Dzhan Nezhdet]
 
 {: .attention}
 > Once you are familiar with the available UI components of this template, exclude this page by changing `nav_order: 99` to `nav_exclude: true` on top of this page (line 3). Its *front matter* will then look like this:
