@@ -36,34 +36,34 @@ Nach sorgfältiger Überlegung haben wir uns entschieden, SQLAlchemy als ORM (Ob
 
 ### Regarded options
 
-#### SQLAlchemy
+#### **SQLAlchemy**
 
-Vorteile:
+**Vorteile:**
 
 * Deklarative Syntax zur Definition von Datenbankmodellen.
-* Unterstützung für verschiedene Datenbanktypen (SQLite, PostgreSQL#
+* Unterstützung für verschiedene Datenbanktypen (SQLite, PostgreSQL
   MySQL).
 * Einfache Integration mit Flask und Unterstützung für Datenbankmigrationen.
 
-Nachteile:
+**Nachteile:**
 
 * Weniger performant für sehr große Datenmengen und komplexe Abfragen.
 
-#### Plain SQL
+#### **Plain SQL**
 
-Vorteile:
+**Vorteile:**
 
 * Volle Kontrolle über die SQL-Abfragen und Datenbankoperationen.
 * Direkte Nutzung von Datenbank-spezifischen Optimierungen und
   Funktionen.
 
-Nachteile:
+**Nachteile:**
 
 * Erhöhter Entwicklungsaufwand und größere Fehleranfälligkeit.
 * Mangel an Abstraktion führt zu komplexerer Wartung und weniger
   Portabilität.
 
-We regarded two alternative options:
+**We regarded two alternative options:**
 
 + Plain SQL3
 + SQLAlchemy
@@ -95,37 +95,39 @@ Nach sorgfältiger Überlegung haben wir uns entschieden, SQLite als Datenbank z
 
 ### Regarded options
 
-Vorteile:
+#### **SQLite**
+
+**Vorteile:**
 
 * Leichtgewichtig und einfach zu verwenden.
 * Keine separate Serverinstallation erforderlich.
 * Gut geeignet für kleine bis mittelgroße Anwendungen.
 
-Nachteile:
+**Nachteile:**
 
 * Weniger geeignet für sehr große Anwendungen mit hohem Datenaufkommen.
 * Eingeschränkte Unterstützung für parallele Schreibvorgänge.
 
-#### MySQL
+#### **MySQL**
 
-Vorteile:
+**Vorteile:**
 
 * Weit verbreitet und gut dokumentiert.
 * Leistungsstark und flexibel.
 
-Nachteile:
+**Nachteile:**
 
 * Erfordert eine separate Serverinstallation und Verwaltung.
 * Komplexere Konfiguration und Administration im Vergleich zu SQLite.
 
-#### PostgreSQL
+#### **PostgreSQL**
 
-Vorteile:
+**Vorteile:**
 
 * Leistungsstark und skalierbar.
 * Unterstützung für komplexe Abfragen und Datenbank-Transaktionen.
 
-Nachteile:
+**Nachteile:**
 
 * Erfordert eine separate Serverinstallation und Verwaltung.
 * Höhere Komplexität und Verwaltungsaufwand im Vergleich zu SQLite.
@@ -150,25 +152,27 @@ Wir haben uns entschieden, SocketIO für die Echtzeit-Kommunikation zu verwenden
 
 ### Regarded options
 
-Vorteile:
+#### **SocketIO**
+
+**Vorteile:**
 
 * Bidirektionale, ereignisbasierte Kommunikation.
 * Unterstützung für mehrere Transportschichten (WebSocket, Polling).
 * Nahtlose Integration mit Flask-SocketIO.
 
-Nachteile:
+**Nachteile:**
 
 * Zusätzliche Komplexität bei der Verwaltung von Verbindungen und Echtzeitereignissen.
 
-#### WebSockets
+#### **WebSockets**
 
-Vorteile:
+**Vorteile:**
 
 * Direkte, bidirektionale Kommunikation zwischen Client und Server.
 * Sehr performant und geeignet für Echtzeit-Anwendungen.
 * Weniger Overhead im Vergleich zu SocketIO.
 
-Nachteile:
+**Nachteile:**
 
 * Keine Unterstützung für ältere Browser, die WebSockets nicht unterstützen.
 * Erfordert mehr manuelle Arbeit für Fallback-Mechanismen und Verbindungshandling.
@@ -194,38 +198,40 @@ Wir haben uns für Flask-WTF entschieden, um sichere und benutzerfreundliche For
 
 ### Regarded options
 
-Vorteile:
+#### **Flask-wtf**
+
+**Vorteile:**
 
 * Einfache Erstellung und Validierung von Formularen.
 * Integration mit Flask und Unterstützung für CSRF-Schutz.
 * Nutzt die mächtige WTForms-Bibliothek.
 
-Nachteile:
+**Nachteile:**
 
 * Kann für sehr komplexe Formulare und Validierungsregeln umständlich werden.
 
-#### WTForms
+#### **WTForms**
 
-Vorteile:
+**Vorteile:**
 
 * Leistungsstarke Bibliothek zur Erstellung und Validierung von Formularen.
 * Flexibel und gut dokumentiert.
 * Kann unabhängig von Flask verwendet werden, was mehr Flexibilität bietet.
 
-Nachteile:
+**Nachteile:**
 
 * Erfordert zusätzliche Arbeit für die Integration mit Flask.
 * Kein eingebauter CSRF-Schutz, erfordert zusätzliche Sicherheitsmaßnahmen.
 
-#### Django Forms
+#### **Django Forms**
 
-Vorteile:
+**Vorteile:**
 
 * Integrierte Formular- und Validierungslösung im Django-Framework.
 * Automatische Erstellung von Formularen basierend auf Datenbankmodellen.
 * Umfangreiche Funktionen und Sicherheitsmaßnahmen, einschließlich CSRF-Schutz.
 
-Nachteile:
+**Nachteile:**
 
 * Nur für Django geeignet, nicht für Flask.
 * Höhere Komplexität und Lernkurve im Vergleich zu Flask-WTF.
@@ -250,7 +256,9 @@ Wir haben uns entschieden, Flask-Mail zu verwenden, um E-Mails in unserer StudyB
 
 ### Regarded options
 
-Vorteile:
+#### **Flask-Mail**
+
+**Vorteile:**
 
 * Nahtlose Integration mit Flask.
 * Einfache Konfiguration und Nutzung.
@@ -258,20 +266,20 @@ Vorteile:
 * Gute Dokumentation und Community-Unterstützung.
 * Ermöglicht das Versenden von Text- und HTML-E-Mails sowie das Anhängen von Dateien.
 
-Nachteile:
+**Nachteile:**
 
 * Begrenzte erweiterte Funktionen im Vergleich zu spezialisierten E-Mail-Diensten.
 * Erfordert die Konfiguration und Verwaltung eines eigenen E-Mail-Servers oder eines externen SMTP-Dienstes.
 
-#### SendGrid
+#### **SendGrid**
 
-Vorteile:
+**Vorteile:**
 
 * Leistungsstarker externer E-Mail-Dienst mit vielen erweiterten Funktionen (z.B. Zustellbarkeitsanalyse, API für Massen-E-Mails).
 * Kein eigener E-Mail-Server erforderlich, einfachere Verwaltung.
 * Gute Skalierbarkeit und Zuverlässigkeit.
 
-Nachteile:
+**Nachteile:**
 
 * Zusätzliche Kosten für die Nutzung des Dienstes.
 * Abhängigkeit von einem externen Dienstleister.
