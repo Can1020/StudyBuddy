@@ -5,7 +5,7 @@ nav_order: 4
 ---
 
 {: .label }
-[Jane Dane]
+[Dzhan Nezhdet, Kadir Aksoy]
 
 {: .no_toc }
 # Summary of individual contributions
@@ -17,16 +17,22 @@ nav_order: 4
 {: toc }
 </details>
 
-## [Jane Dane]
+## [Kadir Aksoy]
 
 Contributions
-: Lorem ipsum dolor
-: Consetetur sadipscing elitr
-: ...
+: GitHub
+: Backend - Entwicklung
+: register.html, forgot_password.html, reset_password.html, chat.html
+: db.py, forms.py, models.py
+: database.db
+: welcomescreenstyle.css, chatstyle.css, matchscreenstyle.css
 
-## [Joe Doe]
+## [Dzhan Nezhdet]
 
 Contributions
-: Diam nonumy eirmod
-: Tempor invidunt ut labore
-: ...
+: UI Designs
+: Backend - Entwicklung
+: welcome.html, register.html, login.html, chats.html, match.html
+: app.py, utils.py
+: schema.sql, gitignore
+: login&registrationstyles.css, chatstyle.css, welcomescreenstyle.css
